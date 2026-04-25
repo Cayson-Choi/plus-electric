@@ -67,6 +67,7 @@ export default function CoursesPage() {
         title="합격을 위한 교육 과정"
         description="전기기능사부터 전기기사 국비지원 과정까지, 목표에 맞는 과정을 선택하세요."
         breadcrumbs={[{ label: "교육 과정" }]}
+        variant="courses"
       />
 
       <section className="bg-white py-12 md:py-16">

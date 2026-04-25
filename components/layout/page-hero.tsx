@@ -1,26 +1,92 @@
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+export type PageHeroVariant =
+  | "default"
+  | "about"
+  | "courses"
+  | "location"
+  | "contact";
+
+const variantStyles: Record<
+  PageHeroVariant,
+  { bg: string; eyebrow: string; glow: string; gridOpacity: string }
+> = {
+  default: {
+    bg: "from-brand-700 to-brand-900",
+    eyebrow: "text-accent-300",
+    glow: "bg-accent-400/20",
+    gridOpacity: "opacity-15",
+  },
+  about: {
+    bg: "from-indigo-700 via-violet-800 to-purple-900",
+    eyebrow: "text-amber-300",
+    glow: "bg-fuchsia-400/25",
+    gridOpacity: "opacity-15",
+  },
+  courses: {
+    bg: "from-sky-700 via-cyan-800 to-teal-900",
+    eyebrow: "text-amber-300",
+    glow: "bg-cyan-300/25",
+    gridOpacity: "opacity-15",
+  },
+  location: {
+    bg: "from-emerald-700 via-teal-800 to-emerald-900",
+    eyebrow: "text-amber-300",
+    glow: "bg-lime-300/25",
+    gridOpacity: "opacity-15",
+  },
+  contact: {
+    bg: "from-slate-700 via-slate-800 to-blue-950",
+    eyebrow: "text-amber-300",
+    glow: "bg-amber-300/20",
+    gridOpacity: "opacity-15",
+  },
+};
 
 export function PageHero({
   eyebrow,
   title,
   description,
   breadcrumbs,
+  variant = "default",
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   breadcrumbs?: { label: string; href?: string }[];
+  variant?: PageHeroVariant;
 }) {
+  const v = variantStyles[variant];
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-brand-700 to-brand-900 text-white">
-      <div className="absolute inset-0 bg-grid opacity-15" aria-hidden="true" />
+    <section
+      className={cn(
+        "relative overflow-hidden bg-gradient-to-br text-white",
+        v.bg,
+      )}
+    >
       <div
-        className="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-accent-400/20 blur-3xl"
+        className={cn("absolute inset-0 bg-grid", v.gridOpacity)}
+        aria-hidden="true"
+      />
+      <div
+        className={cn(
+          "absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl",
+          v.glow,
+        )}
+        aria-hidden="true"
+      />
+      <div
+        className={cn(
+          "absolute -bottom-32 -left-24 h-72 w-72 rounded-full blur-3xl",
+          v.glow,
+        )}
         aria-hidden="true"
       />
 
-      <div className="container-x relative py-14 md:py-20">
+      <div className="container-x relative flex flex-col justify-center py-12 md:py-16 md:min-h-[16rem] lg:min-h-[18rem]">
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav aria-label="breadcrumb" className="mb-6">
             <ol className="flex flex-wrap items-center gap-1.5 text-xs text-white/70">
@@ -52,7 +118,12 @@ export function PageHero({
         )}
 
         {eyebrow && (
-          <p className="text-xs font-bold tracking-[0.2em] text-accent-300 uppercase">
+          <p
+            className={cn(
+              "text-xs font-bold tracking-[0.2em] uppercase",
+              v.eyebrow,
+            )}
+          >
             {eyebrow}
           </p>
         )}
@@ -65,16 +136,6 @@ export function PageHero({
           </p>
         )}
       </div>
-
-      <svg
-        className="block w-full text-white"
-        viewBox="0 0 1440 48"
-        fill="currentColor"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path d="M0 48h1440V16C1080 0 720 32 360 24S120 24 0 24v24Z" />
-      </svg>
     </section>
   );
 }

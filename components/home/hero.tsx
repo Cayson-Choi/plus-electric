@@ -17,36 +17,67 @@ import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const SLIDE_INTERVAL = 6000;
+const SLIDE_INTERVAL = 5000;
+const TRANSITION_MS = 600;
 const TOTAL_SLIDES = 2;
 
+// We render 4 panels: [SlideTwoClone, SlideOne, SlideTwo, SlideOneClone].
+// Initial index is 1 (SlideOne). Auto-advance and the right arrow both
+// increment index → carousel always animates leftward. Left arrow decrements,
+// animating rightward. When we reach a clone we snap back invisibly.
+const RESET_FROM_RIGHT_END = TOTAL_SLIDES + 1; // index 3 → snap to 1
+const RESET_FROM_LEFT_END = 0; //              → snap to TOTAL_SLIDES (2)
+
 export function Hero() {
-  const [current, setCurrent] = useState(0);
+  const [index, setIndex] = useState(1);
+  const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (paused) return;
     intervalRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % TOTAL_SLIDES);
+      setAnimate(true);
+      setIndex((prev) => prev + 1);
     }, SLIDE_INTERVAL);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [paused]);
 
-  const goTo = useCallback((index: number) => {
-    setCurrent(((index % TOTAL_SLIDES) + TOTAL_SLIDES) % TOTAL_SLIDES);
+  const handleTransitionEnd = useCallback(() => {
+    if (index === RESET_FROM_RIGHT_END) {
+      setAnimate(false);
+      setIndex(1);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setAnimate(true));
+      });
+    } else if (index === RESET_FROM_LEFT_END) {
+      setAnimate(false);
+      setIndex(TOTAL_SLIDES);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setAnimate(true));
+      });
+    }
+  }, [index]);
+
+  const goNext = useCallback(() => {
+    setAnimate(true);
+    setIndex((prev) => prev + 1);
   }, []);
 
-  const goPrev = useCallback(
-    () => goTo(current - 1),
-    [current, goTo],
-  );
-  const goNext = useCallback(
-    () => goTo(current + 1),
-    [current, goTo],
-  );
+  const goPrev = useCallback(() => {
+    setAnimate(true);
+    setIndex((prev) => prev - 1);
+  }, []);
+
+  const goTo = useCallback((targetSlide: number) => {
+    setAnimate(true);
+    setIndex(targetSlide + 1);
+  }, []);
+
+  const activeDot =
+    ((index - 1) % TOTAL_SLIDES + TOTAL_SLIDES) % TOTAL_SLIDES;
 
   return (
     <section
@@ -59,19 +90,29 @@ export function Hero() {
       onBlur={() => setPaused(false)}
     >
       <div
-        className="flex transition-transform duration-700 ease-out"
-        style={{ transform: `translateX(-${current * 100}%)` }}
+        className="flex"
+        style={{
+          transform: `translateX(-${index * 100}%)`,
+          transition: animate
+            ? `transform ${TRANSITION_MS}ms ease-out`
+            : "none",
+        }}
+        onTransitionEnd={handleTransitionEnd}
         aria-live="polite"
       >
-        <SlideOne hidden={current !== 0} />
-        <SlideTwo hidden={current !== 1} />
+        {/* clone of slide two — sits to the left of slide one for prev loop */}
+        <SlideTwo hidden cloneFlag />
+        <SlideOne hidden={activeDot !== 0} />
+        <SlideTwo hidden={activeDot !== 1} />
+        {/* clone of slide one — sits to the right of slide two for next loop */}
+        <SlideOne hidden cloneFlag />
       </div>
 
       <button
         type="button"
         onClick={goPrev}
         aria-label="이전 슬라이드"
-        className="absolute top-1/2 left-3 z-20 hidden -translate-y-1/2 grid place-items-center h-11 w-11 rounded-full bg-white/15 text-white backdrop-blur-sm ring-1 ring-white/30 transition-all hover:bg-white/25 hover:scale-105 md:grid"
+        className="absolute top-1/2 left-3 z-20 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 md:grid"
       >
         <ChevronLeft className="h-6 w-6" />
       </button>
@@ -79,7 +120,7 @@ export function Hero() {
         type="button"
         onClick={goNext}
         aria-label="다음 슬라이드"
-        className="absolute top-1/2 right-3 z-20 hidden -translate-y-1/2 grid place-items-center h-11 w-11 rounded-full bg-white/15 text-white backdrop-blur-sm ring-1 ring-white/30 transition-all hover:bg-white/25 hover:scale-105 md:grid"
+        className="absolute top-1/2 right-3 z-20 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 md:grid"
       >
         <ChevronRight className="h-6 w-6" />
       </button>
@@ -91,22 +132,22 @@ export function Hero() {
             type="button"
             onClick={() => goTo(idx)}
             aria-label={`${idx + 1}번 슬라이드로 이동`}
-            aria-current={current === idx}
+            aria-current={activeDot === idx}
             className={cn(
               "relative h-2 overflow-hidden rounded-full bg-white/30 transition-all duration-300",
-              current === idx ? "w-10" : "w-2 hover:bg-white/50",
+              activeDot === idx ? "w-10" : "w-2 hover:bg-white/50",
             )}
           >
-            {current === idx && !paused && (
+            {activeDot === idx && !paused && (
               <span
-                key={current}
+                key={`progress-${index}`}
                 className="absolute inset-y-0 left-0 bg-white"
                 style={{
                   animation: `slideProgress ${SLIDE_INTERVAL}ms linear forwards`,
                 }}
               />
             )}
-            {current === idx && paused && (
+            {activeDot === idx && paused && (
               <span className="absolute inset-y-0 left-0 w-full bg-white" />
             )}
           </button>
@@ -123,14 +164,21 @@ export function Hero() {
   );
 }
 
-function SlideOne({ hidden }: { hidden: boolean }) {
+function SlideOne({
+  hidden,
+  cloneFlag,
+}: {
+  hidden: boolean;
+  cloneFlag?: boolean;
+}) {
   return (
     <div
-      className="relative w-full shrink-0 bg-gradient-to-br from-brand-900 via-brand-700 to-brand-600 text-white"
+      className="relative w-full shrink-0 bg-gradient-to-br from-brand-900 via-brand-700 to-brand-600 text-white lg:min-h-[28rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="1 / 2: 학원 소개"
       aria-hidden={hidden}
+      inert={cloneFlag ? true : undefined}
     >
       <div className="absolute inset-0 bg-grid opacity-25" aria-hidden="true" />
       <div
@@ -142,7 +190,7 @@ function SlideOne({ hidden }: { hidden: boolean }) {
         aria-hidden="true"
       />
 
-      <div className="container-x relative grid gap-12 py-20 lg:grid-cols-12 lg:gap-12 lg:py-28">
+      <div className="container-x relative grid gap-8 py-10 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
         <div className="lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/20 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-accent-300" />
@@ -243,28 +291,25 @@ function SlideOne({ hidden }: { hidden: boolean }) {
           </div>
         </div>
       </div>
-
-      <svg
-        className="block w-full text-white"
-        viewBox="0 0 1440 64"
-        fill="currentColor"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path d="M0 64h1440V32C1200 8 960 0 720 16S240 48 0 32v32Z" />
-      </svg>
     </div>
   );
 }
 
-function SlideTwo({ hidden }: { hidden: boolean }) {
+function SlideTwo({
+  hidden,
+  cloneFlag,
+}: {
+  hidden: boolean;
+  cloneFlag?: boolean;
+}) {
   return (
     <div
-      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-rose-900 via-red-700 to-rose-900 text-white"
+      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-rose-900 via-red-700 to-rose-900 text-white lg:min-h-[28rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="2 / 2: 고용노동부 지정 국비지원학원"
       aria-hidden={hidden}
+      inert={cloneFlag ? true : undefined}
     >
       <div
         className="absolute inset-0"
@@ -284,7 +329,7 @@ function SlideTwo({ hidden }: { hidden: boolean }) {
         }}
       />
 
-      <div className="container-x relative grid gap-12 py-20 lg:grid-cols-12 lg:items-center lg:gap-12 lg:py-28">
+      <div className="container-x relative grid gap-8 py-10 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
         <div className="order-2 lg:order-1 lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/25 backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-accent-300" />
@@ -342,179 +387,23 @@ function SlideTwo({ hidden }: { hidden: boolean }) {
         </div>
 
         <div className="order-1 lg:order-2 lg:col-span-5">
-          <div className="relative mx-auto max-w-sm">
+          <div className="relative mx-auto w-full max-w-2xl sm:max-w-3xl lg:max-w-md xl:max-w-lg">
             <div
-              className="absolute inset-0 -z-10 rounded-full bg-accent-400/30 blur-3xl"
+              className="absolute inset-0 -z-10 rounded-full bg-accent-400/45 blur-3xl"
               aria-hidden="true"
             />
 
             <div className="relative aspect-square">
-              <svg
-                viewBox="0 0 320 320"
-                xmlns="http://www.w3.org/2000/svg"
-                className="absolute inset-0 h-full w-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]"
-                aria-hidden="true"
-              >
-                <defs>
-                  <linearGradient
-                    id="goldGrad"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" stopColor="#fde68a" />
-                    <stop offset="40%" stopColor="#fbbf24" />
-                    <stop offset="70%" stopColor="#d97706" />
-                    <stop offset="100%" stopColor="#92400e" />
-                  </linearGradient>
-                  <linearGradient id="goldShine" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#fffbe6" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="#fffbe6" stopOpacity="0" />
-                  </linearGradient>
-                  <radialGradient id="medalGrad" cx="50%" cy="40%" r="60%">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="60%" stopColor="#1e40af" />
-                    <stop offset="100%" stopColor="#1e3a8a" />
-                  </radialGradient>
-                </defs>
-
-                {/* Trophy base */}
-                <ellipse cx="160" cy="290" rx="80" ry="10" fill="rgba(0,0,0,0.35)" />
-                <rect
-                  x="120"
-                  y="250"
-                  width="80"
-                  height="35"
-                  rx="4"
-                  fill="url(#goldGrad)"
-                />
-                <rect
-                  x="115"
-                  y="245"
-                  width="90"
-                  height="10"
-                  rx="2"
-                  fill="url(#goldGrad)"
-                />
-
-                {/* Trophy stem */}
-                <rect
-                  x="148"
-                  y="220"
-                  width="24"
-                  height="30"
-                  fill="url(#goldGrad)"
-                />
-
-                {/* Trophy cup */}
-                <path
-                  d="M90 60 Q90 50 100 50 L220 50 Q230 50 230 60 L230 130 Q230 220 160 220 Q90 220 90 130 Z"
-                  fill="url(#goldGrad)"
-                />
-
-                {/* Cup handles */}
-                <path
-                  d="M90 80 Q40 80 40 130 Q40 175 85 175"
-                  stroke="url(#goldGrad)"
-                  strokeWidth="14"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M230 80 Q280 80 280 130 Q280 175 235 175"
-                  stroke="url(#goldGrad)"
-                  strokeWidth="14"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-
-                {/* Cup shine */}
-                <path
-                  d="M105 65 Q105 58 115 58 L150 58 Q160 58 160 65 L160 200 Q140 215 115 195 Q105 180 105 130 Z"
-                  fill="url(#goldShine)"
-                  opacity="0.55"
-                />
-
-                {/* Medal */}
-                <circle
-                  cx="160"
-                  cy="135"
-                  r="55"
-                  fill="url(#medalGrad)"
-                  stroke="#fbbf24"
-                  strokeWidth="3"
-                />
-                <circle
-                  cx="160"
-                  cy="135"
-                  r="48"
-                  fill="none"
-                  stroke="#fde68a"
-                  strokeWidth="1"
-                  strokeDasharray="2 3"
-                  opacity="0.6"
-                />
-                <text
-                  x="160"
-                  y="125"
-                  textAnchor="middle"
-                  fontSize="14"
-                  fontWeight="800"
-                  fill="#fde68a"
-                  letterSpacing="1"
-                >
-                  국비지원
-                </text>
-                <text
-                  x="160"
-                  y="148"
-                  textAnchor="middle"
-                  fontSize="20"
-                  fontWeight="900"
-                  fill="#fff"
-                  letterSpacing="1"
-                >
-                  PLUS
-                </text>
-                <text
-                  x="160"
-                  y="166"
-                  textAnchor="middle"
-                  fontSize="9"
-                  fontWeight="700"
-                  fill="#fde68a"
-                  letterSpacing="1.5"
-                >
-                  ELECTRIC ACADEMY
-                </text>
-
-                {/* Sparkles */}
-                <g fill="#fde68a">
-                  <circle cx="60" cy="60" r="3" opacity="0.9" />
-                  <circle cx="270" cy="50" r="2.5" opacity="0.8" />
-                  <circle cx="290" cy="200" r="2" opacity="0.7" />
-                  <circle cx="40" cy="220" r="2.5" opacity="0.8" />
-                </g>
-              </svg>
-            </div>
-
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-accent-400 px-4 py-1.5 text-[11px] font-extrabold tracking-wide text-rose-900 uppercase shadow-lift">
-              ⚡ Certified Academy
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/trophy.png"
+                alt="플러스 전기학원 국비지원 인증 트로피"
+                className="relative h-full w-full object-contain drop-shadow-[0_36px_70px_rgba(0,0,0,0.6)]"
+              />
             </div>
           </div>
         </div>
       </div>
-
-      <svg
-        className="block w-full text-white"
-        viewBox="0 0 1440 64"
-        fill="currentColor"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path d="M0 64h1440V32C1200 8 960 0 720 16S240 48 0 32v32Z" />
-      </svg>
     </div>
   );
 }

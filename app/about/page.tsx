@@ -63,8 +63,9 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Us"
         title="플러스 전기학원을 소개합니다"
-        description="대전 유성구 전기 자격증 전문 교육기관. 합격까지 한 걸음 더, 한 분 한 분의 합격을 진심으로 책임집니다."
+        description="대전 유성구 전기 자격증 전문 교육기관, 합격까지 책임집니다."
         breadcrumbs={[{ label: "학원 소개" }]}
+        variant="about"
       />
 
       <section className="bg-white py-16 md:py-24">

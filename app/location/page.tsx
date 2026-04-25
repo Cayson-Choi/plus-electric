@@ -30,6 +30,7 @@ export default function LocationPage() {
         title="오시는 길"
         description="대전 유성구 대정로의 플러스 전기학원으로 찾아오시는 길을 안내해드립니다."
         breadcrumbs={[{ label: "오시는 길" }]}
+        variant="location"
       />
 
       <section className="bg-white py-16 md:py-24">

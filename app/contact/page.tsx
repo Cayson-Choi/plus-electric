@@ -18,6 +18,7 @@ export default function ContactPage() {
         title="문의하기"
         description="과정 안내, 수강 상담, 내일배움카드 활용 방법 — 무엇이든 친절하게 안내해드립니다."
         breadcrumbs={[{ label: "문의하기" }]}
+        variant="contact"
       />
 
       <section className="bg-white py-16 md:py-24">
