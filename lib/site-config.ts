@@ -10,10 +10,25 @@ export const siteConfig = {
   contact: {
     phone: "010-9937-9510",
     phoneDigits: "01099379510",
+    email: "dw2860@naver.com",
     address: "대전 유성구 대정로 28번길 50 105동 1105호",
     addressShort: "대전 유성구 대정로 28번길 50",
     region: "대전 유성구",
     hours: "평일 09:00 - 21:00 / 토요일 09:00 - 17:00",
+    geo: {
+      // 카카오맵 itemId 26656329 — 실제 학원 위치
+      lat: 36.313371,
+      lng: 127.32269,
+    },
+    // 카카오맵 외부 단축 링크
+    mapLinks: {
+      kakao: "https://kko.to/8rfrz756F1",
+    },
+    // 카카오맵 RoughMap "지도 퍼가기" 임베드 정보
+    kakaoRoughMap: {
+      timestamp: "1777219199002",
+      key: "mdw52uzw86f",
+    },
   },
 
   nav: [

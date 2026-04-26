@@ -24,7 +24,10 @@
     sans-serif;
 
   --shadow-soft: 0 1px 2px rgb(15 23 42 / 0.06), 0 1px 3px rgb(15 23 42 / 0.05);
-  --shadow-card: 0 4px 12px rgb(15 23 42 / 0.06), 0 2px 4px rgb(15 23 42 / 0.04);
+  --shadow-card:
+    0 1px 2px rgb(15 23 42 / 0.05),
+    0 6px 16px rgb(15 23 42 / 0.10),
+    0 2px 6px rgb(15 23 42 / 0.06);
   --shadow-lift:
     0 12px 32px rgb(15 23 42 / 0.1), 0 6px 12px rgb(15 23 42 / 0.06);
 }
@@ -136,4 +139,173 @@ body {
     rgb(30 64 175 / 0.12),
     transparent 70%
   );
+}
+
+.bg-mesh-brand {
+  background-color: #172554;
+  background-image:
+    radial-gradient(at 12% 18%, rgb(30 64 175 / 0.85) 0px, transparent 55%),
+    radial-gradient(at 88% 8%, rgb(96 165 250 / 0.30) 0px, transparent 50%),
+    radial-gradient(at 60% 95%, rgb(59 130 246 / 0.55) 0px, transparent 55%),
+    radial-gradient(at 0% 100%, rgb(30 58 138 / 0.9) 0px, transparent 50%);
+}
+
+.bg-mesh-light {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(at 14% 14%, rgb(30 64 175 / 0.07) 0px, transparent 50%),
+    radial-gradient(at 84% 6%, rgb(250 204 21 / 0.06) 0px, transparent 45%),
+    radial-gradient(at 90% 90%, rgb(59 130 246 / 0.06) 0px, transparent 50%);
+}
+
+.bg-noise {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+@utility shadow-glow {
+  box-shadow:
+    0 0 0 1px rgb(30 64 175 / 0.06),
+    0 8px 24px rgb(30 64 175 / 0.10),
+    0 24px 60px rgb(15 23 42 / 0.10);
+}
+
+@utility shadow-elevate {
+  box-shadow:
+    0 1px 1px rgb(15 23 42 / 0.04),
+    0 4px 8px rgb(15 23 42 / 0.04),
+    0 16px 32px rgb(15 23 42 / 0.08),
+    0 32px 64px rgb(15 23 42 / 0.06);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes trophy-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes trophy-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.08); }
+}
+
+@keyframes trophy-shine {
+  0% { transform: translateX(-120%) skewX(-12deg); }
+  60%, 100% { transform: translateX(220%) skewX(-12deg); }
+}
+
+@keyframes emphasis-sway {
+  0%, 100% { transform: rotate(-3deg) scale(1); }
+  50% { transform: rotate(3deg) scale(1.06); }
+}
+
+.animate-emphasis-sway {
+  animation: emphasis-sway 2.4s ease-in-out infinite;
+  transform-origin: center 80%;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 45s linear infinite;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-trophy-float {
+  animation: trophy-float 5s ease-in-out infinite;
+}
+
+.animate-trophy-glow {
+  animation: trophy-glow 4s ease-in-out infinite;
+}
+
+.animate-trophy-shine::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 0;
+  height: 80%;
+  width: 30%;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 255 255 / 0.18) 50%,
+    transparent 80%
+  );
+  filter: blur(8px);
+  transform: translateX(-120%) skewX(-12deg);
+  animation: trophy-shine 5.5s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.shimmer-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.2) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 2.4s ease-in-out infinite;
+}
+
+.divider-fade {
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgb(15 23 42 / 0.08) 20%,
+    rgb(15 23 42 / 0.08) 80%,
+    transparent
+  );
+  height: 1px;
+}
+
+
+/* Kakao Daum RoughMap (지도 퍼가기) — make embed fully responsive to wrapper */
+.root_daum_roughmap,
+.root_daum_roughmap.root_daum_roughmap_landing {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+}
+.root_daum_roughmap .wrap_map {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+}
+.root_daum_roughmap .wrap_map > .map {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.root_daum_roughmap .map_border {
+  display: none !important;
+}
+.root_daum_roughmap .cont {
+  position: absolute !important;
+  inset: auto auto 0 0 !important;
+  z-index: 5;
+}
+.root_daum_roughmap .wrap_controllers {
+  z-index: 6;
 }

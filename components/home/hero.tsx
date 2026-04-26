@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import {
   ArrowRight,
   Award,
@@ -17,9 +23,11 @@ import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const SLIDE_INTERVAL = 5000;
-const TRANSITION_MS = 600;
+const SLIDE_INTERVAL = 3500;
+const TRANSITION_MS = 1100;
 const TOTAL_SLIDES = 2;
+const SWIPE_THRESHOLD_RATIO = 0.18;
+const RESUME_AUTOPLAY_MS = 4000;
 
 // We render 4 panels: [SlideTwoClone, SlideOne, SlideTwo, SlideOneClone].
 // Initial index is 1 (SlideOne). Auto-advance and the right arrow both
@@ -32,7 +40,14 @@ export function Hero() {
   const [index, setIndex] = useState(1);
   const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
+  const [dragOffsetPx, setDragOffsetPx] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragStartXRef = useRef<number | null>(null);
+  const dragStartYRef = useRef<number | null>(null);
+  const dragLockedRef = useRef<"x" | "y" | null>(null);
+  const trackWidthRef = useRef<number>(0);
 
   useEffect(() => {
     if (paused) return;
@@ -44,6 +59,19 @@ export function Hero() {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [paused]);
+
+  useEffect(() => {
+    return () => {
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
+  const scheduleResume = useCallback(() => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      setPaused(false);
+    }, RESUME_AUTOPLAY_MS);
+  }, []);
 
   const handleTransitionEnd = useCallback(() => {
     if (index === RESET_FROM_RIGHT_END) {
@@ -76,8 +104,89 @@ export function Hero() {
     setIndex(targetSlide + 1);
   }, []);
 
+  const onPointerDown = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
+      // Ignore non-primary mouse buttons; allow touch + pen + primary mouse.
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragStartXRef.current = e.clientX;
+      dragStartYRef.current = e.clientY;
+      dragLockedRef.current = null;
+      trackWidthRef.current =
+        trackRef.current?.offsetWidth ?? window.innerWidth;
+      setPaused(true);
+      if (resumeTimerRef.current) {
+        clearTimeout(resumeTimerRef.current);
+        resumeTimerRef.current = null;
+      }
+    },
+    [],
+  );
+
+  const onPointerMove = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
+      if (dragStartXRef.current === null || dragStartYRef.current === null)
+        return;
+      const dx = e.clientX - dragStartXRef.current;
+      const dy = e.clientY - dragStartYRef.current;
+
+      if (dragLockedRef.current === null) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        dragLockedRef.current = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      }
+
+      if (dragLockedRef.current === "x") {
+        e.preventDefault();
+        try {
+          (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+        } catch {}
+        setAnimate(false);
+        setDragOffsetPx(dx);
+      }
+    },
+    [],
+  );
+
+  const finishDrag = useCallback(() => {
+    if (dragStartXRef.current === null) return;
+    const offset = dragOffsetPx;
+    const width = trackWidthRef.current || 1;
+    const threshold = width * SWIPE_THRESHOLD_RATIO;
+    dragStartXRef.current = null;
+    dragStartYRef.current = null;
+    const wasHorizontal = dragLockedRef.current === "x";
+    dragLockedRef.current = null;
+
+    setAnimate(true);
+    setDragOffsetPx(0);
+
+    if (wasHorizontal) {
+      if (offset < -threshold) {
+        setIndex((prev) => prev + 1);
+      } else if (offset > threshold) {
+        setIndex((prev) => prev - 1);
+      }
+    }
+    scheduleResume();
+  }, [dragOffsetPx, scheduleResume]);
+
+  const onPointerUp = useCallback(
+    (e: ReactPointerEvent<HTMLDivElement>) => {
+      try {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      } catch {}
+      finishDrag();
+    },
+    [finishDrag],
+  );
+
+  const onPointerCancel = useCallback(() => {
+    finishDrag();
+  }, [finishDrag]);
+
   const activeDot =
     ((index - 1) % TOTAL_SLIDES + TOTAL_SLIDES) % TOTAL_SLIDES;
+
+  const dragging = dragLockedRef.current === "x" && dragStartXRef.current !== null;
 
   return (
     <section
@@ -90,14 +199,20 @@ export function Hero() {
       onBlur={() => setPaused(false)}
     >
       <div
-        className="flex"
+        ref={trackRef}
+        className="flex touch-pan-y select-none"
         style={{
-          transform: `translateX(-${index * 100}%)`,
+          transform: `translate3d(calc(-${index * 100}% + ${dragOffsetPx}px), 0, 0)`,
           transition: animate
-            ? `transform ${TRANSITION_MS}ms ease-out`
+            ? `transform ${TRANSITION_MS}ms cubic-bezier(0.65, 0, 0.35, 1)`
             : "none",
+          cursor: dragging ? "grabbing" : undefined,
         }}
         onTransitionEnd={handleTransitionEnd}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
         aria-live="polite"
       >
         {/* clone of slide two — sits to the left of slide one for prev loop */}
@@ -108,6 +223,7 @@ export function Hero() {
         <SlideOne hidden cloneFlag />
       </div>
 
+      {/* Desktop side arrows — placed at md+ so they don't overlap mobile content */}
       <button
         type="button"
         onClick={goPrev}
@@ -125,33 +241,55 @@ export function Hero() {
         <ChevronRight className="h-6 w-6" />
       </button>
 
-      <div className="absolute inset-x-0 bottom-6 z-20 flex items-center justify-center gap-2.5 md:bottom-8">
-        {Array.from({ length: TOTAL_SLIDES }).map((_, idx) => (
-          <button
-            key={idx}
-            type="button"
-            onClick={() => goTo(idx)}
-            aria-label={`${idx + 1}번 슬라이드로 이동`}
-            aria-current={activeDot === idx}
-            className={cn(
-              "relative h-2 overflow-hidden rounded-full bg-white/30 transition-all duration-300",
-              activeDot === idx ? "w-10" : "w-2 hover:bg-white/50",
-            )}
-          >
-            {activeDot === idx && !paused && (
-              <span
-                key={`progress-${index}`}
-                className="absolute inset-y-0 left-0 bg-white"
-                style={{
-                  animation: `slideProgress ${SLIDE_INTERVAL}ms linear forwards`,
-                }}
-              />
-            )}
-            {activeDot === idx && paused && (
-              <span className="absolute inset-y-0 left-0 w-full bg-white" />
-            )}
-          </button>
-        ))}
+      <div className="absolute inset-x-0 bottom-5 z-20 flex items-center justify-center gap-3 md:bottom-8 md:gap-0">
+        {/* Mobile-only inline prev arrow */}
+        <button
+          type="button"
+          onClick={goPrev}
+          aria-label="이전 슬라이드"
+          className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 md:hidden"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+
+        <div className="flex items-center justify-center gap-2.5">
+          {Array.from({ length: TOTAL_SLIDES }).map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => goTo(idx)}
+              aria-label={`${idx + 1}번 슬라이드로 이동`}
+              aria-current={activeDot === idx}
+              className={cn(
+                "relative h-2 overflow-hidden rounded-full bg-white/30 transition-all duration-300",
+                activeDot === idx ? "w-10" : "w-2 hover:bg-white/50",
+              )}
+            >
+              {activeDot === idx && !paused && (
+                <span
+                  key={`progress-${index}`}
+                  className="absolute inset-y-0 left-0 bg-white"
+                  style={{
+                    animation: `slideProgress ${SLIDE_INTERVAL}ms linear forwards`,
+                  }}
+                />
+              )}
+              {activeDot === idx && paused && (
+                <span className="absolute inset-y-0 left-0 w-full bg-white" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile-only inline next arrow */}
+        <button
+          type="button"
+          onClick={goNext}
+          aria-label="다음 슬라이드"
+          className="grid h-8 w-8 place-items-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 md:hidden"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
       </div>
 
       <style>{`
@@ -173,24 +311,36 @@ function SlideOne({
 }) {
   return (
     <div
-      className="relative w-full shrink-0 bg-gradient-to-br from-brand-900 via-brand-700 to-brand-600 text-white lg:min-h-[28rem]"
+      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white lg:min-h-[28rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="1 / 2: 학원 소개"
       aria-hidden={hidden}
       inert={cloneFlag ? true : undefined}
     >
-      <div className="absolute inset-0 bg-grid opacity-25" aria-hidden="true" />
       <div
-        className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-accent-400/30 blur-3xl"
+        className="absolute inset-0"
         aria-hidden="true"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 18% 95%, rgba(59, 130, 246, 0.5), transparent 55%), radial-gradient(circle at 82% 8%, rgba(96, 165, 250, 0.35), transparent 55%)",
+        }}
+      />
+      <div className="absolute inset-0 bg-grid opacity-15" aria-hidden="true" />
+      <div
+        className="absolute top-1/2 left-1/2 -z-0 h-[120%] w-[140%] -translate-x-1/2 -translate-y-1/2 opacity-60"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.06) 45%, transparent 55%), linear-gradient(245deg, transparent 35%, rgba(255,255,255,0.05) 45%, transparent 55%)",
+        }}
       />
       <div
-        className="absolute -bottom-24 -left-32 h-96 w-96 rounded-full bg-brand-400/40 blur-3xl"
+        className="absolute -bottom-24 -left-32 h-96 w-96 rounded-full bg-brand-400/30 blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="container-x relative grid gap-8 py-10 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
+      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
         <div className="lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/20 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-accent-300" />
@@ -304,7 +454,7 @@ function SlideTwo({
 }) {
   return (
     <div
-      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-rose-900 via-red-700 to-rose-900 text-white lg:min-h-[28rem]"
+      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-emerald-950 via-teal-800 to-emerald-950 text-white lg:min-h-[28rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="2 / 2: 고용노동부 지정 국비지원학원"
@@ -316,7 +466,7 @@ function SlideTwo({
         aria-hidden="true"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 100%, rgba(250, 204, 21, 0.18), transparent 50%), radial-gradient(circle at 80% 0%, rgba(255, 60, 60, 0.4), transparent 55%)",
+            "radial-gradient(circle at 20% 100%, rgba(250, 204, 21, 0.22), transparent 50%), radial-gradient(circle at 80% 0%, rgba(16, 185, 129, 0.45), transparent 55%)",
         }}
       />
       <div className="absolute inset-0 bg-grid opacity-10" aria-hidden="true" />
@@ -329,7 +479,7 @@ function SlideTwo({
         }}
       />
 
-      <div className="container-x relative grid gap-8 py-10 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
+      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
         <div className="order-2 lg:order-1 lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/25 backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-accent-300" />
@@ -342,7 +492,7 @@ function SlideTwo({
 
           <h2 className="mt-3 text-balance text-4xl leading-[1.05] font-extrabold tracking-tight sm:text-5xl lg:text-[64px]">
             <span className="block">고용노동부에서</span>
-            <span className="mt-1 block bg-gradient-to-r from-accent-300 via-accent-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(250,204,21,0.35)]">
+            <span className="mt-1 block text-accent-300">
               지정한 국비지원학원
             </span>
           </h2>
@@ -386,19 +536,40 @@ function SlideTwo({
           </div>
         </div>
 
-        <div className="order-1 lg:order-2 lg:col-span-5">
-          <div className="relative mx-auto w-full max-w-2xl sm:max-w-3xl lg:max-w-md xl:max-w-lg">
+        <div className="order-1 flex justify-center lg:order-2 lg:col-span-5 lg:block">
+          <div className="relative mx-auto w-full max-w-[18rem] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+            {/* outer pulsing glow */}
             <div
-              className="absolute inset-0 -z-10 rounded-full bg-accent-400/45 blur-3xl"
+              className="animate-trophy-glow absolute inset-0 -z-10 rounded-full bg-accent-400/55 blur-3xl"
               aria-hidden="true"
             />
+            {/* inner amber halo */}
+            <div
+              className="absolute inset-x-10 inset-y-10 -z-10 rounded-full bg-amber-300/35 blur-2xl"
+              aria-hidden="true"
+            />
+            {/* radial spotlight directly behind trophy */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 -z-10"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 45%, rgba(253, 224, 71, 0.45) 0%, rgba(250, 204, 21, 0.18) 30%, transparent 65%)",
+              }}
+            />
 
-            <div className="relative aspect-square">
+            <div className="animate-trophy-float relative aspect-square">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/trophy.png"
                 alt="플러스 전기학원 국비지원 인증 트로피"
-                className="relative h-full w-full object-contain drop-shadow-[0_36px_70px_rgba(0,0,0,0.6)]"
+                draggable={false}
+                style={{
+                  mixBlendMode: "lighten",
+                  filter:
+                    "drop-shadow(0 24px 48px rgba(0,0,0,0.55)) drop-shadow(0 0 60px rgba(250, 204, 21, 0.45)) saturate(1.15) contrast(1.05)",
+                }}
+                className="relative h-full w-full object-contain"
               />
             </div>
           </div>

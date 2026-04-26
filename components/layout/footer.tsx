@@ -1,27 +1,69 @@
 import Link from "next/link";
-import { MapPin, Phone, Clock } from "lucide-react";
+import { ArrowUpRight, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-slate-950 text-slate-300">
-      <div className="container-x py-14">
-        <div className="grid gap-10 md:grid-cols-3 md:gap-12">
-          <div>
+    <footer className="relative overflow-hidden bg-slate-950 text-slate-300">
+      <div
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute -top-32 left-1/4 h-64 w-64 rounded-full bg-brand-600/15 blur-3xl"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute -bottom-32 right-1/4 h-64 w-64 rounded-full bg-brand-500/15 blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="container-x relative py-16">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-10">
+          <div className="md:col-span-5">
             <Logo variant="white" />
-            <p className="mt-5 text-sm leading-relaxed text-slate-400">
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-400">
               대전 유성구 전기 자격증 전문 교육기관.
               <br />
-              합격까지 한 걸음 더, 플러스 전기학원과 함께하세요.
+              체계적인 커리큘럼과 1:1 합격 코칭으로 합격까지 책임지는 학원입니다.
             </p>
+
+            <div className="mt-7 flex flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-[11px] font-bold tracking-wide text-slate-300 ring-1 ring-white/10">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-400" />
+                내일배움카드 사용 가능
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 text-[11px] font-bold tracking-wide text-slate-300 ring-1 ring-white/10">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
+                전기기능사 / 전기기사 운영
+              </span>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+          <div className="md:col-span-4">
+            <h3 className="text-[11px] font-bold tracking-[0.2em] text-white uppercase">
               연락처
             </h3>
-            <ul className="mt-5 space-y-3.5 text-sm">
+            <ul className="mt-5 space-y-4 text-sm">
+              <li className="flex items-start gap-3">
+                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
+                <a
+                  href={`tel:${siteConfig.contact.phoneDigits}`}
+                  className="text-base font-extrabold tracking-tight text-white hover:text-accent-400"
+                >
+                  {siteConfig.contact.phone}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  className="font-semibold text-slate-300 hover:text-white"
+                >
+                  {siteConfig.contact.email}
+                </a>
+              </li>
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
                 <span className="text-slate-300">
@@ -29,33 +71,27 @@ export function Footer() {
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
-                <a
-                  href={`tel:${siteConfig.contact.phoneDigits}`}
-                  className="font-semibold text-white hover:text-accent-400"
-                >
-                  {siteConfig.contact.phone}
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
-                <span className="text-slate-300">{siteConfig.contact.hours}</span>
+                <span className="text-slate-300">
+                  {siteConfig.contact.hours}
+                </span>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-sm font-bold tracking-wide text-white uppercase">
+          <div className="md:col-span-3">
+            <h3 className="text-[11px] font-bold tracking-[0.2em] text-white uppercase">
               바로가기
             </h3>
-            <ul className="mt-5 space-y-2.5 text-sm">
+            <ul className="mt-5 space-y-3 text-sm">
               {siteConfig.nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-slate-300 hover:text-white"
+                    className="group inline-flex items-center gap-1.5 font-semibold text-slate-300 transition-colors hover:text-white"
                   >
                     {item.label}
+                    <ArrowUpRight className="h-3.5 w-3.5 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
                   </Link>
                 </li>
               ))}
@@ -63,7 +99,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-slate-800 pt-7 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-slate-800/80 pt-8 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
           <p>
             © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
           </p>

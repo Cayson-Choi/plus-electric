@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Award, BookOpen, Compass, HeartHandshake, Target } from "lucide-react";
+import { Award, BookOpen, HeartHandshake, Target } from "lucide-react";
 import { PageHero } from "@/components/layout/page-hero";
-import { ContactCta } from "@/components/home/contact-cta";
 
 export const metadata: Metadata = {
   title: "학원 소개",
@@ -72,7 +71,7 @@ export default function AboutPage() {
         <div className="container-x">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
-              <div className="sticky top-24">
+              <div className="lg:sticky lg:top-24">
                 <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
                   Greetings
                 </p>
@@ -81,9 +80,19 @@ export default function AboutPage() {
                   <br />
                   플러스 전기학원입니다.
                 </h2>
-                <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-xs font-bold text-brand-700">
-                  <Compass className="h-3.5 w-3.5" />
-                  대전 유성구 · 전기 자격증 전문
+
+                <div className="relative mt-7 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 to-white shadow-card ring-1 ring-slate-200/80">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/together.png"
+                    alt="플러스 전기학원 강사진"
+                    draggable={false}
+                    className="block h-auto w-full select-none"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-slate-900/5"
+                    aria-hidden="true"
+                  />
                 </div>
               </div>
             </div>
@@ -139,9 +148,9 @@ export default function AboutPage() {
               return (
                 <div
                   key={value.title}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-card"
+                  className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-200/80 transition-all duration-300 hover:-translate-y-1 hover:ring-brand-300 hover:shadow-elevate"
                 >
-                  <span className="absolute top-5 right-6 text-4xl font-black text-slate-100 transition-colors group-hover:text-brand-50">
+                  <span className="absolute top-5 right-6 text-5xl font-black tracking-tight text-slate-200 transition-colors duration-300 group-hover:text-brand-200">
                     0{idx + 1}
                   </span>
                   <div className="relative grid h-11 w-11 place-items-center rounded-xl bg-brand-600 text-white shadow-soft">
@@ -175,7 +184,7 @@ export default function AboutPage() {
             {milestones.map((m, idx) => (
               <li
                 key={m.title}
-                className="relative rounded-3xl bg-gradient-to-b from-brand-50 to-white p-7 ring-1 ring-brand-100"
+                className="group relative rounded-3xl bg-gradient-to-b from-brand-50 to-white p-7 shadow-card ring-1 ring-brand-200/60 transition-all duration-300 hover:-translate-y-1 hover:ring-brand-300 hover:shadow-elevate"
               >
                 <span className="text-xs font-bold tracking-wider text-brand-600">
                   STEP {idx + 1}
@@ -195,7 +204,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <ContactCta />
     </>
   );
 }

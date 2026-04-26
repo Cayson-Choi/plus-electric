@@ -11,52 +11,52 @@ import {
 const items = [
   {
     title: "전기기능사 과정",
-    description: "기초부터 실기까지 한 번에",
+    description: "기초부터 실기까지",
     href: "/courses/#electrician",
     icon: Zap,
-    color: "from-blue-500 to-brand-700",
+    gradient: "from-blue-500 to-brand-700",
   },
   {
     title: "전기기사 국비지원",
-    description: "내일배움카드 사용 가능",
+    description: "내일배움카드 가능",
     href: "/courses/#electric-engineer",
     icon: CreditCard,
-    color: "from-accent-400 to-accent-600",
+    gradient: "from-accent-400 to-accent-600",
     accent: true,
   },
   {
     title: "수강 안내",
-    description: "전체 과정 한눈에 보기",
+    description: "전체 과정 한눈에",
     href: "/courses/",
     icon: GraduationCap,
-    color: "from-emerald-500 to-emerald-700",
+    gradient: "from-emerald-500 to-emerald-700",
   },
   {
     title: "오시는 길",
     description: "대전 유성구 대정로",
     href: "/location/",
     icon: MapPin,
-    color: "from-rose-500 to-rose-700",
+    gradient: "from-rose-500 to-rose-700",
   },
   {
     title: "상담 문의",
-    description: "전화 010-9937-9510",
+    description: "010-9937-9510",
     href: "/contact/",
     icon: Phone,
-    color: "from-slate-700 to-slate-900",
+    gradient: "from-slate-700 to-slate-900",
   },
 ];
 
 export function QuickLinks() {
   return (
-    <section className="relative bg-white">
+    <section className="relative bg-gradient-to-b from-slate-50 via-slate-50/60 to-white">
       <div className="container-x py-14 md:py-20">
         <div className="mb-10 flex items-end justify-between gap-6">
           <div>
-            <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-brand-700 uppercase ring-1 ring-brand-100">
               Quick Menu
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+            </span>
+            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
               가장 자주 찾는 메뉴
             </h2>
           </div>
@@ -66,29 +66,34 @@ export function QuickLinks() {
           {items.map((item) => {
             const Icon = item.icon;
             return (
-              <Link
-                key={item.title}
-                href={item.href}
-                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift"
-              >
-                <div
-                  className={`mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${item.color} text-white shadow-soft`}
+              <div key={item.title} className="relative">
+                <Link
+                  href={item.href}
+                  className="group relative block h-full overflow-hidden rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/80 transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-elevate hover:ring-brand-300"
                 >
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="text-[15px] font-bold text-slate-900">
-                  {item.title}
-                </h3>
-                <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                  {item.description}
-                </p>
-                <ArrowUpRight className="absolute top-5 right-5 h-4 w-4 text-slate-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+                  <div
+                    className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-brand-50 opacity-0 transition-opacity duration-500 group-hover:opacity-70"
+                    aria-hidden="true"
+                  />
+                  <div
+                    className={`relative mb-4 grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${item.gradient} text-white shadow-soft transition-transform duration-300 group-hover:scale-105`}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={2.2} />
+                  </div>
+                  <h3 className="relative text-[15px] font-extrabold tracking-tight text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="relative mt-1 text-xs leading-relaxed text-slate-500">
+                    {item.description}
+                  </p>
+                  <ArrowUpRight className="absolute top-5 right-5 h-4 w-4 text-slate-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand-600" />
+                </Link>
                 {item.accent && (
-                  <span className="absolute -top-1 -right-1 rounded-full bg-accent-400 px-2 py-0.5 text-[10px] font-extrabold tracking-wide text-brand-900 shadow-soft">
+                  <span className="pointer-events-none absolute -top-2 -right-2 z-10 rounded-full bg-accent-400 px-2 py-0.5 text-[10px] font-extrabold tracking-wide text-brand-900 shadow-soft ring-2 ring-white">
                     NEW
                   </span>
                 )}
-              </Link>
+              </div>
             );
           })}
         </div>

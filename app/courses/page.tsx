@@ -13,7 +13,6 @@ import {
 import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
 import { PageHero } from "@/components/layout/page-hero";
-import { ContactCta } from "@/components/home/contact-cta";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -78,7 +77,7 @@ export default function CoursesPage() {
               return (
                 <div
                   key={b.title}
-                  className="flex items-start gap-4 rounded-2xl bg-slate-50 p-5"
+                  className="group flex items-start gap-4 rounded-2xl bg-white p-5 shadow-card ring-1 ring-slate-200/80 transition-all duration-300 hover:-translate-y-0.5 hover:ring-brand-300 hover:shadow-elevate"
                 >
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-600 text-white shadow-soft">
                     <Icon className="h-5 w-5" />
@@ -137,7 +136,7 @@ export default function CoursesPage() {
 
               <div className="mt-12 grid gap-6 lg:grid-cols-12">
                 <div className="lg:col-span-7">
-                  <div className="rounded-3xl bg-white p-7 ring-1 ring-slate-200 sm:p-9">
+                  <div className="rounded-3xl bg-white p-7 shadow-card ring-1 ring-slate-200/80 sm:p-9">
                     <h3 className="text-base font-extrabold tracking-tight text-slate-900">
                       커리큘럼 구성
                     </h3>
@@ -242,7 +241,6 @@ export default function CoursesPage() {
         );
       })}
 
-      <ContactCta />
     </>
   );
 }

@@ -9,40 +9,30 @@ export type PageHeroVariant =
   | "location"
   | "contact";
 
+// 모든 variant에 동일한 브랜드 럭셔리 톤 적용 (학원 사이트 일관성)
+const unifiedStyle = {
+  bg: "from-brand-800 via-brand-900 to-slate-950",
+  eyebrow: "text-accent-300",
+  glowPrimary: "bg-brand-500/30",
+  glowSecondary: "bg-brand-400/20",
+  accentBar: "from-transparent via-accent-300/50 to-transparent",
+} as const;
+
 const variantStyles: Record<
   PageHeroVariant,
-  { bg: string; eyebrow: string; glow: string; gridOpacity: string }
+  {
+    bg: string;
+    eyebrow: string;
+    glowPrimary: string;
+    glowSecondary: string;
+    accentBar: string;
+  }
 > = {
-  default: {
-    bg: "from-brand-700 to-brand-900",
-    eyebrow: "text-accent-300",
-    glow: "bg-accent-400/20",
-    gridOpacity: "opacity-15",
-  },
-  about: {
-    bg: "from-indigo-700 via-violet-800 to-purple-900",
-    eyebrow: "text-amber-300",
-    glow: "bg-fuchsia-400/25",
-    gridOpacity: "opacity-15",
-  },
-  courses: {
-    bg: "from-sky-700 via-cyan-800 to-teal-900",
-    eyebrow: "text-amber-300",
-    glow: "bg-cyan-300/25",
-    gridOpacity: "opacity-15",
-  },
-  location: {
-    bg: "from-emerald-700 via-teal-800 to-emerald-900",
-    eyebrow: "text-amber-300",
-    glow: "bg-lime-300/25",
-    gridOpacity: "opacity-15",
-  },
-  contact: {
-    bg: "from-slate-700 via-slate-800 to-blue-950",
-    eyebrow: "text-amber-300",
-    glow: "bg-amber-300/20",
-    gridOpacity: "opacity-15",
-  },
+  default: unifiedStyle,
+  about: unifiedStyle,
+  courses: unifiedStyle,
+  location: unifiedStyle,
+  contact: unifiedStyle,
 };
 
 export function PageHero({
@@ -61,34 +51,44 @@ export function PageHero({
   const v = variantStyles[variant];
 
   return (
-    <section
-      className={cn(
-        "relative overflow-hidden bg-gradient-to-br text-white",
-        v.bg,
-      )}
-    >
+    <section className="relative overflow-hidden bg-slate-950 text-white">
       <div
-        className={cn("absolute inset-0 bg-grid", v.gridOpacity)}
+        className={cn("absolute inset-0 bg-gradient-to-br", v.bg)}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-grid opacity-[0.18]"
         aria-hidden="true"
       />
       <div
         className={cn(
-          "absolute -top-24 -right-24 h-72 w-72 rounded-full blur-3xl",
-          v.glow,
+          "absolute -top-40 -right-32 h-[28rem] w-[28rem] rounded-full blur-3xl",
+          v.glowPrimary,
         )}
         aria-hidden="true"
       />
       <div
         className={cn(
-          "absolute -bottom-32 -left-24 h-72 w-72 rounded-full blur-3xl",
-          v.glow,
+          "absolute -bottom-40 -left-32 h-[28rem] w-[28rem] rounded-full blur-3xl",
+          v.glowSecondary,
+        )}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/30 via-black/10 to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className={cn(
+          "absolute inset-x-0 bottom-0 h-px bg-gradient-to-r",
+          v.accentBar,
         )}
         aria-hidden="true"
       />
 
-      <div className="container-x relative flex flex-col justify-center py-12 md:py-16 md:min-h-[16rem] lg:min-h-[18rem]">
+      <div className="container-x relative flex flex-col justify-center py-10 md:py-14 md:min-h-[12rem] lg:min-h-[14rem]">
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav aria-label="breadcrumb" className="mb-6">
+          <nav aria-label="breadcrumb" className="mb-5">
             <ol className="flex flex-wrap items-center gap-1.5 text-xs text-white/70">
               <li>
                 <Link
@@ -120,18 +120,25 @@ export function PageHero({
         {eyebrow && (
           <p
             className={cn(
-              "text-xs font-bold tracking-[0.2em] uppercase",
+              "inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] uppercase",
               v.eyebrow,
             )}
           >
+            <span
+              className={cn(
+                "block h-px w-8",
+                "bg-gradient-to-r from-transparent to-current",
+              )}
+              aria-hidden="true"
+            />
             {eyebrow}
           </p>
         )}
-        <h1 className="mt-3 text-balance text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
+        <h1 className="mt-4 text-balance text-3xl leading-[1.15] font-extrabold tracking-tight sm:text-4xl md:text-[44px] md:leading-[1.1] lg:text-5xl">
           {title}
         </h1>
         {description && (
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/85">
+          <p className="mt-5 max-w-4xl text-base leading-relaxed text-white/85 md:text-lg">
             {description}
           </p>
         )}

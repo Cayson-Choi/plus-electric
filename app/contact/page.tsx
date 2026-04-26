@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/contact-form";
 import { PageHero } from "@/components/layout/page-hero";
 import { siteConfig } from "@/lib/site-config";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "문의하기",
@@ -56,6 +56,22 @@ export default function ContactPage() {
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/15 text-accent-300">
+                      <Mail className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-[11px] font-semibold tracking-wider text-white/60 uppercase">
+                        이메일
+                      </p>
+                      <a
+                        href={`mailto:${siteConfig.contact.email}`}
+                        className="mt-0.5 block break-all leading-relaxed font-bold text-white hover:text-accent-300"
+                      >
+                        {siteConfig.contact.email}
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/15 text-accent-300">
                       <Clock className="h-5 w-5" />
                     </span>
                     <div>
@@ -83,7 +99,7 @@ export default function ContactPage() {
                 </ul>
               </div>
 
-              <div className="mt-5 rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+              <div className="mt-5 rounded-3xl bg-gradient-to-br from-slate-50 to-white p-6 shadow-card ring-1 ring-slate-200/80">
                 <p className="text-xs font-bold tracking-wider text-brand-700 uppercase">
                   상담 가능한 내용
                 </p>
@@ -97,7 +113,7 @@ export default function ContactPage() {
             </aside>
 
             <div className="lg:col-span-7">
-              <div className="rounded-3xl bg-white p-7 ring-1 ring-slate-200 sm:p-9">
+              <div className="rounded-3xl bg-white p-7 shadow-card ring-1 ring-slate-200/80 sm:p-9">
                 <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
                   Online Inquiry
                 </p>

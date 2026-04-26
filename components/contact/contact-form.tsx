@@ -40,7 +40,7 @@ export function ContactForm() {
 
     const tel = siteConfig.contact.phoneDigits;
     // 서버가 없으므로 mailto로 메일 클라이언트 열기 + 전화 안내
-    const mailto = `mailto:?subject=${encodeURIComponent(
+    const mailto = `mailto:${siteConfig.contact.email}?subject=${encodeURIComponent(
       subject,
     )}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
