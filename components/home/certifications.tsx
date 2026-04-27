@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export function Certifications() {
   return (
-    <section className="relative overflow-hidden bg-mesh-brand py-12 text-white md:py-16">
+    <section className="relative overflow-hidden bg-mesh-brand py-10 text-white md:py-14">
       <div
         className="absolute inset-0 bg-grid opacity-15"
         aria-hidden="true"

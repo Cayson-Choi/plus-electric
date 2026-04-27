@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export function ContactCta() {
   return (
-    <section className="relative overflow-hidden py-20 text-white md:py-28">
+    <section className="relative overflow-hidden py-14 text-white md:py-20">
       <div
         className="absolute inset-0 bg-gradient-to-br from-brand-900 via-brand-800 to-slate-950"
         aria-hidden="true"

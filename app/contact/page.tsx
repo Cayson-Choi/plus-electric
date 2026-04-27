@@ -21,7 +21,7 @@ export default function ContactPage() {
         variant="contact"
       />
 
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-16">
         <div className="container-x">
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
             <aside className="lg:col-span-5">

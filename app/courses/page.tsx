@@ -69,7 +69,7 @@ export default function CoursesPage() {
         variant="courses"
       />
 
-      <section className="bg-white pt-10 pb-4 md:pt-14 md:pb-6">
+      <section className="bg-white pt-8 pb-3 md:pt-10 md:pb-5">
         <div className="container-x">
           <div className="grid gap-4 sm:grid-cols-3">
             {benefits.map((b) => {
@@ -104,7 +104,7 @@ export default function CoursesPage() {
             key={course.slug}
             id={course.slug}
             className={cn(
-              "scroll-mt-24 py-10 md:py-14",
+              "scroll-mt-24 py-8 md:py-12",
               reverse ? "bg-slate-50" : "bg-white",
             )}
           >

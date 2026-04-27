@@ -33,7 +33,7 @@ export default function LocationPage() {
         variant="location"
       />
 
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-16">
         <div className="container-x">
           <div className="grid gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">

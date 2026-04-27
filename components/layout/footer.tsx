@@ -86,16 +86,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-slate-800/80 pt-8 text-xs text-slate-500 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-3 border-t border-slate-700/60 pt-8 text-xs text-slate-300 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
             <p>
               © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
             </p>
-            <p className="text-slate-600">
+            <p className="text-slate-400">
               사업자등록번호 {siteConfig.contact.businessNumber}
             </p>
           </div>
-          <p className="text-slate-600">
+          <p className="text-slate-400">
             본 사이트는 정보 제공 목적이며, 자세한 사항은 전화 상담 부탁드립니다
           </p>
         </div>

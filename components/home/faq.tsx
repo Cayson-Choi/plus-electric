@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/site-config";
 
 export function Faq() {
   return (
-    <section className="relative overflow-hidden bg-slate-50 py-20 md:py-28">
+    <section className="relative overflow-hidden bg-slate-50 py-14 md:py-20">
       <div
         className="absolute -top-32 left-1/3 h-72 w-72 rounded-full bg-brand-100/40 blur-3xl"
         aria-hidden="true"

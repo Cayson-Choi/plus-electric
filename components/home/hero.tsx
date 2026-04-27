@@ -450,7 +450,7 @@ function SlideOne({
                   지금 모집 중
                 </span>
                 <span className="rounded-full bg-accent-400 px-2.5 py-1 text-[10px] font-bold tracking-wide text-brand-900 uppercase">
-                  Hot
+                  New
                 </span>
               </div>
               <h3 className="mt-3 text-2xl font-extrabold leading-tight">
@@ -486,7 +486,7 @@ function SlideOne({
               </Link>
             </div>
 
-            <div className="absolute -top-4 -right-4 hidden rotate-6 rounded-xl bg-accent-400 px-3 py-2 text-xs font-extrabold text-brand-900 shadow-lift sm:block">
+            <div className="animate-plus-wobble absolute -top-4 -right-4 hidden rounded-xl bg-accent-400 px-3 py-2 text-xs font-extrabold text-brand-900 shadow-lift sm:block">
               ⚡ PLUS
             </div>
           </div>

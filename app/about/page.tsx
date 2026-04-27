@@ -111,7 +111,7 @@ export default function AboutPage() {
         variant="about"
       />
 
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-16">
         <div className="container-x">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-5">
@@ -175,7 +175,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white pb-16 md:pb-24">
+      <section className="bg-white pb-12 md:pb-16">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
@@ -255,7 +255,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16 md:py-24">
+      <section className="bg-slate-50 py-12 md:py-16">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
@@ -293,7 +293,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-16">
         <div className="container-x">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">

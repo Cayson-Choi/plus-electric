@@ -165,6 +165,13 @@ body {
   50% { transform: rotate(3deg) scale(1.06); }
 }
 
+@keyframes plus-wobble {
+  0%, 100% { transform: translateZ(0) rotate(6deg); }
+  25%      { transform: translateZ(0) rotate(-3deg); }
+  50%      { transform: translateZ(0) rotate(10deg); }
+  75%      { transform: translateZ(0) rotate(2deg); }
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -218,6 +225,16 @@ body {
 .animate-trophy-float {
   animation: trophy-float 3.6s ease-in-out infinite;
   transform-origin: center 70%;
+}
+
+.animate-plus-wobble {
+  animation: plus-wobble 2.6s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  transform-style: preserve-3d;
 }
 
 .animate-trophy-glow {

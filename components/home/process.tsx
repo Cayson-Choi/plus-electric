@@ -33,7 +33,7 @@ const steps = [
 
 export function Process() {
   return (
-    <section className="relative overflow-hidden bg-white py-20 md:py-28">
+    <section className="relative overflow-hidden bg-white py-14 md:py-20">
       <div
         className="absolute inset-x-0 top-0 -z-0 h-px divider-fade"
         aria-hidden="true"

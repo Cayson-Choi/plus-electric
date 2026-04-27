@@ -20,7 +20,7 @@ const courseIcon: Record<string, typeof Zap> = {
 
 export function CoursesSection() {
   return (
-    <section className="relative overflow-hidden bg-slate-50 py-20 md:py-28">
+    <section className="relative overflow-hidden bg-slate-50 py-14 md:py-20">
       <div
         className="absolute inset-x-0 top-0 -z-0 h-px divider-fade"
         aria-hidden="true"
@@ -158,8 +158,8 @@ export function CoursesSection() {
                     className={cn(
                       "relative mt-7 flex items-center gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5",
                       isHighlight
-                        ? "bg-accent-400 text-brand-900 ring-2 ring-accent-300 shadow-lift hover:bg-accent-300"
-                        : "bg-gradient-to-br from-brand-50 via-blue-50 to-brand-100 ring-2 ring-brand-300 shadow-card hover:ring-brand-400 hover:shadow-elevate",
+                        ? "bg-accent-400 text-brand-900 shadow-lift hover:bg-accent-300"
+                        : "bg-gradient-to-br from-brand-100 via-blue-100 to-brand-200 shadow-card hover:shadow-elevate",
                     )}
                   >
                     <span
@@ -261,7 +261,7 @@ export function CoursesSection() {
                       "relative inline-flex w-full items-center justify-between rounded-xl px-5 py-3.5 text-sm font-extrabold tracking-tight transition-all duration-300",
                       isHighlight
                         ? "bg-accent-400 text-brand-900 shadow-soft hover:bg-accent-300 hover:shadow-card"
-                        : "bg-slate-900 text-white shadow-soft hover:bg-brand-700 hover:shadow-card",
+                        : "bg-slate-100 text-slate-900 ring-1 ring-slate-200 shadow-soft hover:bg-slate-200 hover:shadow-card",
                     )}
                   >
                     과정 자세히 보기

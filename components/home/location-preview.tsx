@@ -11,7 +11,7 @@ export function LocationPreview() {
   const kakaoDirectionsUrl = `https://map.kakao.com/?sName=&eName=${kakaoQuery}`;
 
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-14 md:py-20">
       <div className="container-x">
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-brand-700 uppercase ring-1 ring-brand-100">
