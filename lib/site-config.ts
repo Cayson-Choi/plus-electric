@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "전기 자격증, 플러스로 끝낸다",
   description:
     "대전 동구 전기 자격증 전문 교육기관 전기기능사·전기기사 국비지원 과정 운영 합격까지 한 걸음 더, 플러스 전기학원과 함께하세요",
-  url: "https://plus-electric.pages.dev",
+  url: "https://plus-electric.vercel.app",
   ogImage: "/og.png",
 
   contact: {
