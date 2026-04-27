@@ -45,7 +45,7 @@ export function Features() {
             </span>
             <h2 className="mt-5 text-3xl font-bold tracking-[-0.005em] text-slate-900 sm:text-4xl md:text-[44px] md:leading-[1.25]">
               <span className="inline-block">
-                왜 <span className="text-brand-700">플러스 전기학원</span>을
+                왜 <span className="text-accent-500">플러스 전기학원</span>을
               </span>
               <br />
               <span className="inline-block">선택해야 할까요?</span>
