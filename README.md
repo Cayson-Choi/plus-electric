@@ -101,7 +101,8 @@ npm run preview
 │   └── utils.ts                    # cn() 헬퍼
 ├── public/
 │   ├── _headers                    # Cloudflare 보안/캐시 헤더
-│   ├── fonts/NanumPen.ttf          # 나눔손글씨 펜 (Hero 강조용)
+│   ├── og.png                      # OG / Twitter share 이미지
+│   ├── fonts/NanumPen.ttf          # 나눔손글씨 펜 (Hero "플러스" 강조용)
 │   └── images/                     # trophy.png, together.png 등
 ├── docs/                           # PRD, Action Plan
 └── next.config.ts                  # Next.js 설정 (정적 export)
@@ -152,6 +153,17 @@ npm run preview
 - `animate-marquee` — MarqueeStrip 무한 흐름
 - `sparkle-text` + `plus-char-1/2/3` — Hero "플러스" 글자 등장 사이클 (4s, 무지개 색상 60s)
 - `animate-pulse-soft` — 전화 CTA 버튼 펄스
+
+### Hero 캐러셀 안정성
+
+- 첫 페인트 시 `animate=false` 로 transform 즉시 스냅 → 다음 rAF에서 transition 활성화 (hydration 직후 슬라이드 슬라이드인 깜빡임 방지)
+- `document.visibilitychange` 핸들러로 백그라운드 탭에서 캐러셀 일시정지, 복귀 시 `index`를 `[1, TOTAL_SLIDES]` 범위로 normalize → 탭 비활성 동안 throttled `setInterval` + missed `transitionEnd`로 슬라이드가 화면 밖에 멈추는 문제 해결
+- Section + 각 슬라이드에 모바일/태블릿 `min-height` 명시 (`28rem` / `30rem` / `32rem`) — layout race로 인한 collapse 방지
+
+### 폰트 로딩 (FOUT 방지)
+
+- `<link rel="preload" href="/fonts/NanumPen.ttf" as="font">` 를 layout.tsx `<head>` 에 명시 → HTML parse 시점에 폰트 다운로드 시작
+- `Nanum Pen Script` `@font-face` 의 `font-display: block` → 폰트 로드 전엔 글자 invisible (fallback 고딕체로 표시되었다 손글씨로 swap되는 깜빡임 제거)
 
 ---
 

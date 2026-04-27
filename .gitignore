@@ -50,4 +50,9 @@ next-env.d.ts
 /.research
 
 # Local Claude settings
-.claude/settings.local.json
+.claude/
+
+# Local design / asset working folders (originals, not shipped)
+/images/
+/OG/
+/나눔글꼴모음/
