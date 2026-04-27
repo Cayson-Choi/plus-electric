@@ -385,7 +385,7 @@ function SlideOne({
         <div className="lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/20 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-accent-300" />
-            대전 유성구 전기 자격증 전문 교육기관
+            대전 동구 전기 자격증 전문 교육기관
           </span>
 
           <h1 className="mt-7 text-balance text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-[60px]">

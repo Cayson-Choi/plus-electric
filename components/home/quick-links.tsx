@@ -33,7 +33,7 @@ const items = [
   },
   {
     title: "오시는 길",
-    description: "대전 유성구 대정로",
+    description: "대전 동구 동서대로",
     href: "/location/",
     icon: MapPin,
     gradient: "from-rose-500 to-rose-700",

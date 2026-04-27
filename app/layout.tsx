@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   keywords: [
     "플러스 전기학원",
     "대전 전기학원",
-    "유성구 전기학원",
+    "동구 전기학원",
     "전기기능사",
     "전기기사",
     "전기 국비지원",
@@ -68,8 +68,8 @@ export default function RootLayout({
     telephone: siteConfig.contact.phone,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "대정로 28번길 50 105동 1105호",
-      addressLocality: "유성구",
+      streetAddress: "동서대로 1517번지 4층",
+      addressLocality: "동구",
       addressRegion: "대전광역시",
       addressCountry: "KR",
     },

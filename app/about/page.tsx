@@ -5,7 +5,7 @@ import { PageHero } from "@/components/layout/page-hero";
 export const metadata: Metadata = {
   title: "학원 소개",
   description:
-    "플러스 전기학원은 대전 유성구에 위치한 전기 자격증 전문 교육기관입니다 풍부한 현장 경험을 갖춘 강사진과 체계적인 커리큘럼으로 합격을 책임집니다",
+    "플러스 전기학원은 대전 동구에 위치한 전기 자격증 전문 교육기관입니다 풍부한 현장 경험을 갖춘 강사진과 체계적인 커리큘럼으로 합격을 책임집니다",
 };
 
 const values = [
@@ -35,6 +35,50 @@ const values = [
   },
 ];
 
+const facilities = [
+  {
+    src: "/images/2.jpg",
+    title: "학원 입구",
+    caption: "수강생을 맞이하는 학원 정문",
+    width: 1504,
+    height: 2000,
+    // 노출 과다 (흰 벽이 날아감) — 톤 다운 필터
+    filter:
+      "brightness-[0.92] saturate-105 contrast-[1.08]",
+  },
+  {
+    src: "/images/4.jpg",
+    title: "로비 공간",
+    caption: "자연 채광이 들어오는 휴게·안내 공간",
+    width: 4000,
+    height: 3000,
+  },
+  {
+    src: "/images/5.jpg",
+    title: "전기 실습 패널",
+    caption: "현장 실무 수준의 배선 실습 보드",
+    width: 4000,
+    height: 3000,
+  },
+  {
+    src: "/images/3.jpg",
+    title: "이론 강의실",
+    caption: "체계적인 필기 강의가 진행되는 강의실",
+    width: 4000,
+    height: 3000,
+  },
+  {
+    src: "/images/6.jpg",
+    title: "실습 작업실",
+    caption: "공구·기자재가 갖춰진 전용 실습 공간",
+    width: 4000,
+    height: 3000,
+  },
+];
+
+const DEFAULT_IMAGE_FILTER =
+  "brightness-110 saturate-110 contrast-[1.03]";
+
 const milestones = [
   {
     label: "합격까지의 약속",
@@ -62,7 +106,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Us"
         title="플러스 전기학원을 소개합니다"
-        description="대전 유성구 전기 자격증 전문 교육기관, 합격까지 책임집니다"
+        description="대전 동구 전기 자격증 전문 교육기관, 합격까지 책임집니다"
         breadcrumbs={[{ label: "학원 소개" }]}
         variant="about"
       />
@@ -99,8 +143,8 @@ export default function AboutPage() {
 
             <div className="space-y-5 text-base leading-relaxed text-slate-700 lg:col-span-7">
               <p>
-                안녕하세요 플러스 전기학원입니다 저희 학원은 대전 유성구
-                대정로에 위치한 전기 자격증 전문 교육기관으로, 전기기능사부터
+                안녕하세요 플러스 전기학원입니다 저희 학원은 대전 동구
+                동서대로에 위치한 전기 자격증 전문 교육기관으로, 전기기능사부터
                 전기기사 국비지원 과정까지 폭넓은 교육을 제공합니다
               </p>
               <p>
@@ -127,6 +171,86 @@ export default function AboutPage() {
                 <span className="text-brand-700">— 플러스 전기학원 일동</span>
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white pb-16 md:pb-24">
+        <div className="container-x">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-bold tracking-[0.2em] text-brand-600 uppercase">
+              Our Space
+            </p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              학원 공간 둘러보기
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-600">
+              이론 강의실부터 전기 실습 작업실까지, 합격을 위한 모든 환경이
+              한 자리에 마련되어 있습니다
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-12 md:gap-5">
+            {[facilities[0], facilities[1], facilities[2]].map((item, idx) => (
+              <figure
+                key={item.src}
+                className="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-slate-200/80 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-elevate md:col-span-4"
+              >
+                <div className="aspect-[4/5] w-full overflow-hidden bg-slate-50">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    width={item.width}
+                    height={item.height}
+                    draggable={false}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    {...(idx === 0 ? { fetchPriority: "high" as const } : {})}
+                    style={{ imageRendering: "auto" }}
+                    className={`block h-full w-full select-none object-cover [will-change:transform] ${item.filter ?? DEFAULT_IMAGE_FILTER} transition-transform duration-700 group-hover:scale-[1.04]`}
+                  />
+                </div>
+                <figcaption className="border-t border-slate-100 bg-white px-5 py-4">
+                  <h3 className="text-base font-extrabold tracking-tight text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-[13px] leading-relaxed text-slate-600">
+                    {item.caption}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+
+            {[facilities[3], facilities[4]].map((item) => (
+              <figure
+                key={item.src}
+                className="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-card ring-1 ring-slate-200/80 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-elevate md:col-span-6"
+              >
+                <div className="aspect-[16/10] w-full overflow-hidden bg-slate-50">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    width={item.width}
+                    height={item.height}
+                    draggable={false}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ imageRendering: "auto" }}
+                    className={`block h-full w-full select-none object-cover [will-change:transform] ${item.filter ?? DEFAULT_IMAGE_FILTER} transition-transform duration-700 group-hover:scale-[1.04]`}
+                  />
+                </div>
+                <figcaption className="border-t border-slate-100 bg-white px-6 py-5">
+                  <h3 className="text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    {item.caption}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>

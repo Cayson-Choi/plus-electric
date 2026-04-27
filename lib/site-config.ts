@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "플러스 전기학원",
   tagline: "전기 자격증, 플러스로 끝낸다",
   description:
-    "대전 유성구 전기 자격증 전문 교육기관 전기기능사·전기기사 국비지원 과정 운영 합격까지 한 걸음 더, 플러스 전기학원과 함께하세요",
+    "대전 동구 전기 자격증 전문 교육기관 전기기능사·전기기사 국비지원 과정 운영 합격까지 한 걸음 더, 플러스 전기학원과 함께하세요",
   url: "https://plus-electric.pages.dev",
   ogImage: "/og.png",
 
@@ -10,19 +10,26 @@ export const siteConfig = {
     phone: "010-9937-9510",
     phoneDigits: "01099379510",
     email: "dw2860@naver.com",
-    address: "대전 유성구 대정로 28번길 50 105동 1105호",
-    addressShort: "대전 유성구 대정로 28번길 50",
-    region: "대전 유성구",
+    address: "대전광역시 동구 동서대로 1517번지 4층",
+    addressShort: "대전 동구 동서대로 1517",
+    region: "대전 동구",
     hours: "평일 09:00 - 21:00 / 토요일 09:00 - 17:00",
-    // 외부 지도 단축 링크
+    businessNumber: "506-92-21717",
+    // 외부 지도 단축 링크 (도로명 주소 검색)
     mapLinks: {
-      kakao: "https://kko.to/8rfrz756F1",
-      naver: "https://naver.me/xB7pFaKp",
+      kakao:
+        "https://map.kakao.com/?q=" +
+        encodeURIComponent("대전 동구 동서대로 1517"),
+      naver:
+        "https://map.naver.com/p/search/" +
+        encodeURIComponent("대전 동구 동서대로 1517"),
     },
     // 카카오맵 RoughMap "지도 퍼가기" 임베드 정보
+    // ⚠ 새 주소로 핀이 변경된 경우 map.kakao.com → 검색 → 지도 퍼가기에서
+    //    timestamp / key를 재발급 받아 아래 값을 교체해야 정확한 위치가 표시됩니다.
     kakaoRoughMap: {
-      timestamp: "1777219199002",
-      key: "mdw52uzw86f",
+      timestamp: "1777265436328",
+      key: "2ayav2mjbhes",
     },
   },
 
@@ -41,10 +48,11 @@ export const siteConfig = {
       description:
         "전기 자격증의 기본인 전기기능사 자격증을 단계별 커리큘럼으로 체계적으로 준비합니다 필기와 실기를 모두 다루며 합격까지 책임집니다",
       target: "전기 자격증을 처음 준비하는 분, 입문자",
-      duration: "약 2~3개월",
+      duration: "상담 후 안내",
       schedule: "주간반 / 야간반 운영",
-      price: 1000000,
-      priceLabel: "1,000,000원",
+      price: null,
+      priceLabel: "전화 상담",
+      inquiryOnly: true,
       features: [
         "필기 + 실기 완벽 종합반",
         "현장 경력 강사진의 1:1 코칭",

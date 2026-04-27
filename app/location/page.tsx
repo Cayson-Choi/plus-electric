@@ -16,7 +16,7 @@ import { KakaoRoughMap } from "@/components/ui/kakao-rough-map";
 export const metadata: Metadata = {
   title: "오시는 길",
   description:
-    "플러스 전기학원은 대전 유성구 대정로 28번길 50 105동 1105호에 위치하고 있습니다 대중교통 및 자가용 안내를 확인하세요",
+    "플러스 전기학원은 대전광역시 동구 동서대로 1517번지 4층에 위치하고 있습니다 대중교통 및 자가용 안내를 확인하세요",
 };
 
 export default function LocationPage() {
@@ -28,7 +28,7 @@ export default function LocationPage() {
       <PageHero
         eyebrow="Find Us"
         title="오시는 길"
-        description="대전 유성구 대정로의 플러스 전기학원으로 찾아오시는 길을 안내해드립니다"
+        description="대전 동구 동서대로의 플러스 전기학원으로 찾아오시는 길을 안내해드립니다"
         breadcrumbs={[{ label: "오시는 길" }]}
         variant="location"
       />
@@ -129,7 +129,7 @@ export default function LocationPage() {
                 </h3>
               </div>
               <ul className="mt-4 space-y-2 text-sm leading-relaxed text-slate-700">
-                <li>· 대정로 인근 정류장 하차 후 도보 이동</li>
+                <li>· 동서대로 인근 정류장 하차 후 도보 이동</li>
                 <li>· 자세한 버스 노선은 카카오맵에서 검색 가능</li>
                 <li>· 방문 전 전화 주시면 위치 안내 도와드립니다</li>
               </ul>

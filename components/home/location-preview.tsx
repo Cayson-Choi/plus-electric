@@ -22,7 +22,7 @@ export function LocationPreview() {
             오시는 길
           </h2>
           <p className="mt-5 text-base leading-relaxed text-slate-600">
-            대전 유성구 대정로, 편안하게 학습할 수 있는 환경에서 만나뵙겠습니다
+            대전 동구 동서대로, 편안하게 학습할 수 있는 환경에서 만나뵙겠습니다
           </p>
         </div>
 
@@ -83,7 +83,7 @@ export function LocationPreview() {
                 <InfoRow
                   icon={<Bus className="h-4 w-4" />}
                   label="대중교통"
-                  value="대정로 인근 버스 정류장에서 도보 이동"
+                  value="동서대로 인근 버스 정류장에서 도보 이동"
                 />
                 <InfoRow
                   icon={<Car className="h-4 w-4" />}

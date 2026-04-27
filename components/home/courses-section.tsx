@@ -5,6 +5,7 @@ import {
   Clock,
   CreditCard,
   GraduationCap,
+  Phone,
   Sparkles,
   Users,
   Zap,
@@ -151,65 +152,122 @@ export function CoursesSection() {
                   ))}
                 </ul>
 
-                <div
-                  className={cn(
-                    "relative mt-7 grid grid-cols-2 gap-4 rounded-2xl p-5",
-                    isHighlight
-                      ? "bg-white/10 ring-1 ring-white/15 backdrop-blur-sm"
-                      : "bg-slate-50 ring-1 ring-slate-100",
-                  )}
-                >
-                  <div>
-                    <p
+                {"inquiryOnly" in course && course.inquiryOnly ? (
+                  <a
+                    href={`tel:${siteConfig.contact.phoneDigits}`}
+                    className={cn(
+                      "relative mt-7 flex items-center gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5",
+                      isHighlight
+                        ? "bg-accent-400 text-brand-900 ring-2 ring-accent-300 shadow-lift hover:bg-accent-300"
+                        : "bg-gradient-to-br from-brand-50 via-blue-50 to-brand-100 ring-2 ring-brand-300 shadow-card hover:ring-brand-400 hover:shadow-elevate",
+                    )}
+                  >
+                    <span
                       className={cn(
-                        "text-[10px] font-bold tracking-[0.15em] uppercase",
-                        isHighlight ? "text-white/60" : "text-slate-500",
+                        "grid h-12 w-12 shrink-0 place-items-center rounded-xl shadow-soft",
+                        isHighlight
+                          ? "bg-brand-900 text-accent-300"
+                          : "bg-brand-700 text-white",
                       )}
                     >
-                      수강료
-                    </p>
-                    <p
+                      <Phone className="h-5 w-5" strokeWidth={2.5} />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={cn(
+                          "text-[11px] font-extrabold tracking-[0.18em] uppercase",
+                          isHighlight ? "text-brand-900/70" : "text-brand-700",
+                        )}
+                      >
+                        과정 신청 문의
+                      </p>
+                      <p
+                        className={cn(
+                          "mt-0.5 text-xl font-black tracking-tight leading-tight sm:text-2xl",
+                          isHighlight ? "text-brand-900" : "text-brand-900",
+                        )}
+                      >
+                        {siteConfig.contact.phone}
+                      </p>
+                      <p
+                        className={cn(
+                          "mt-0.5 text-xs font-semibold leading-snug",
+                          isHighlight ? "text-brand-900/80" : "text-slate-700",
+                        )}
+                      >
+                        수강료 · 일정은 전화로 친절하게 안내해드립니다
+                      </p>
+                    </div>
+                    <ArrowRight
                       className={cn(
-                        "mt-1.5 text-lg font-extrabold tracking-tight leading-tight",
-                        isHighlight ? "text-accent-300" : "text-brand-700",
+                        "h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-1",
+                        isHighlight ? "text-brand-900" : "text-brand-700",
                       )}
-                    >
-                      {course.priceLabel}
-                    </p>
+                    />
+                  </a>
+                ) : (
+                  <div
+                    className={cn(
+                      "relative mt-7 grid grid-cols-2 gap-4 rounded-2xl p-5",
+                      isHighlight
+                        ? "bg-white/10 ring-1 ring-white/15 backdrop-blur-sm"
+                        : "bg-slate-50 ring-1 ring-slate-100",
+                    )}
+                  >
+                    <div>
+                      <p
+                        className={cn(
+                          "text-[10px] font-bold tracking-[0.15em] uppercase",
+                          isHighlight ? "text-white/60" : "text-slate-500",
+                        )}
+                      >
+                        수강료
+                      </p>
+                      <p
+                        className={cn(
+                          "mt-1.5 text-lg font-extrabold tracking-tight leading-tight",
+                          isHighlight ? "text-accent-300" : "text-brand-700",
+                        )}
+                      >
+                        {course.priceLabel}
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        className={cn(
+                          "text-[10px] font-bold tracking-[0.15em] uppercase",
+                          isHighlight ? "text-white/60" : "text-slate-500",
+                        )}
+                      >
+                        교육 기간
+                      </p>
+                      <p
+                        className={cn(
+                          "mt-1.5 flex items-center gap-1.5 text-sm font-extrabold leading-tight",
+                          isHighlight ? "text-white" : "text-slate-900",
+                        )}
+                      >
+                        <Clock className="h-3.5 w-3.5" />
+                        {course.duration}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p
-                      className={cn(
-                        "text-[10px] font-bold tracking-[0.15em] uppercase",
-                        isHighlight ? "text-white/60" : "text-slate-500",
-                      )}
-                    >
-                      교육 기간
-                    </p>
-                    <p
-                      className={cn(
-                        "mt-1.5 flex items-center gap-1.5 text-sm font-extrabold leading-tight",
-                        isHighlight ? "text-white" : "text-slate-900",
-                      )}
-                    >
-                      <Clock className="h-3.5 w-3.5" />
-                      {course.duration}
-                    </p>
-                  </div>
-                </div>
+                )}
 
-                <Link
-                  href={`/courses/#${course.slug}`}
-                  className={cn(
-                    "relative mt-7 inline-flex w-full items-center justify-between rounded-xl px-5 py-3.5 text-sm font-extrabold tracking-tight transition-all duration-300",
-                    isHighlight
-                      ? "bg-accent-400 text-brand-900 shadow-soft hover:bg-accent-300 hover:shadow-card"
-                      : "bg-slate-900 text-white shadow-soft hover:bg-brand-700 hover:shadow-card",
-                  )}
-                >
-                  과정 자세히 보기
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                </Link>
+                <div className="mt-auto pt-7">
+                  <Link
+                    href={`/courses/#${course.slug}`}
+                    className={cn(
+                      "relative inline-flex w-full items-center justify-between rounded-xl px-5 py-3.5 text-sm font-extrabold tracking-tight transition-all duration-300",
+                      isHighlight
+                        ? "bg-accent-400 text-brand-900 shadow-soft hover:bg-accent-300 hover:shadow-card"
+                        : "bg-slate-900 text-white shadow-soft hover:bg-brand-700 hover:shadow-card",
+                    )}
+                  >
+                    과정 자세히 보기
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  </Link>
+                </div>
               </article>
             );
           })}

@@ -179,25 +179,29 @@ export default function CoursesPage() {
                     </h3>
 
                     <dl className="mt-7 space-y-4 text-sm">
-                      <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
-                        <dt className="text-white/70">수강료</dt>
-                        <dd className="text-right text-base font-extrabold text-accent-300">
-                          {course.priceLabel}
-                        </dd>
-                      </div>
+                      {!("inquiryOnly" in course && course.inquiryOnly) && (
+                        <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+                          <dt className="text-white/70">수강료</dt>
+                          <dd className="text-right text-base font-extrabold text-accent-300">
+                            {course.priceLabel}
+                          </dd>
+                        </div>
+                      )}
                       <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
                         <dt className="text-white/70">대상</dt>
                         <dd className="text-right font-bold">
                           {course.target}
                         </dd>
                       </div>
-                      <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
-                        <dt className="text-white/70">기간</dt>
-                        <dd className="flex items-center gap-1 text-right font-bold">
-                          <Clock className="h-3.5 w-3.5" />
-                          {course.duration}
-                        </dd>
-                      </div>
+                      {!("inquiryOnly" in course && course.inquiryOnly) && (
+                        <div className="flex items-start justify-between gap-3 border-b border-white/10 pb-3">
+                          <dt className="text-white/70">기간</dt>
+                          <dd className="flex items-center gap-1 text-right font-bold">
+                            <Clock className="h-3.5 w-3.5" />
+                            {course.duration}
+                          </dd>
+                        </div>
+                      )}
                       <div className="flex items-start justify-between gap-3">
                         <dt className="text-white/70">일정</dt>
                         <dd className="text-right font-bold">
@@ -205,6 +209,13 @@ export default function CoursesPage() {
                         </dd>
                       </div>
                     </dl>
+
+                    {"inquiryOnly" in course && course.inquiryOnly && (
+                      <p className="mt-5 rounded-xl bg-white/10 p-3.5 text-xs leading-relaxed text-white/85">
+                        📞 수강료 / 교육 기간은 학원 사정에 따라 달라질 수
+                        있어 전화 상담으로 안내해드립니다
+                      </p>
+                    )}
 
                     <div className="mt-7 space-y-3">
                       <Button

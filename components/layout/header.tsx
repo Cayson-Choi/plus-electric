@@ -40,7 +40,7 @@ export function Header() {
       <div className="hidden bg-slate-900 text-slate-300 md:block">
         <div className="container-x flex h-9 items-center justify-between text-[13px]">
           <span className="text-slate-400">
-            대전 유성구 전기 자격증 전문 교육기관
+            대전 동구 전기 자격증 전문 교육기관
           </span>
           <a
             href={`tel:${siteConfig.contact.phoneDigits}`}

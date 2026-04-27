@@ -43,7 +43,7 @@ export function Features() {
               <Sparkles className="h-3 w-3" />
               Why Plus Electric
             </span>
-            <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-[44px] md:leading-[1.1]">
+            <h2 className="mt-5 text-3xl font-bold tracking-[-0.005em] text-slate-900 sm:text-4xl md:text-[44px] md:leading-[1.25]">
               <span className="inline-block">
                 왜 <span className="text-brand-700">플러스 전기학원</span>을
               </span>
