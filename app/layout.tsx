@@ -70,6 +70,14 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
+        {/* Preload Hero accent font so "플러스" doesn't flash from fallback to handwriting */}
+        <link
+          rel="preload"
+          href="/fonts/NanumPen.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}

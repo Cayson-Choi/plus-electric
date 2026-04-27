@@ -38,7 +38,10 @@ const RESET_FROM_LEFT_END = 0; //              → snap to TOTAL_SLIDES (2)
 
 export function Hero() {
   const [index, setIndex] = useState(1);
-  const [animate, setAnimate] = useState(true);
+  // Start with animate=false so the initial transform (-100%) snaps without
+  // animating the carousel "into place" during hydration. We re-enable
+  // transitions after first paint via rAF.
+  const [animate, setAnimate] = useState(false);
   const [paused, setPaused] = useState(false);
   const [dragOffsetPx, setDragOffsetPx] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -48,6 +51,44 @@ export function Hero() {
   const dragStartYRef = useRef<number | null>(null);
   const dragLockedRef = useRef<"x" | "y" | null>(null);
   const trackWidthRef = useRef<number>(0);
+
+  // Enable transitions only after the first paint to avoid hydration flicker.
+  useEffect(() => {
+    const id = requestAnimationFrame(() =>
+      requestAnimationFrame(() => setAnimate(true)),
+    );
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  // Pause carousel when tab is backgrounded; reset to a safe slide position
+  // when it becomes visible again. Without this, throttled setInterval +
+  // missed transitionEnd events can leave the track translated past the
+  // clone, so the section appears empty when the user returns.
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        setPaused(true);
+        return;
+      }
+      // Returning to the tab: snap to a guaranteed-valid slide without animation,
+      // then re-enable autoplay on the next frame.
+      setAnimate(false);
+      setIndex((prev) => {
+        const normalized =
+          (((prev - 1) % TOTAL_SLIDES) + TOTAL_SLIDES) % TOTAL_SLIDES;
+        return normalized + 1; // map back to [1, TOTAL_SLIDES]
+      });
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setAnimate(true);
+          setPaused(false);
+        });
+      });
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
 
   useEffect(() => {
     if (paused) return;
@@ -190,7 +231,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative overflow-hidden"
+      className="relative overflow-hidden min-h-[28rem] sm:min-h-[30rem] lg:min-h-[32rem]"
       aria-roledescription="carousel"
       aria-label="플러스 전기학원 메인 슬라이드"
       onMouseEnter={() => setPaused(true)}
@@ -311,7 +352,7 @@ function SlideOne({
 }) {
   return (
     <div
-      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white lg:min-h-[28rem]"
+      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white min-h-[28rem] sm:min-h-[30rem] lg:min-h-[32rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="1 / 2: 학원 소개"
@@ -340,7 +381,7 @@ function SlideOne({
         aria-hidden="true"
       />
 
-      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
+      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[32rem]">
         <div className="lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/20 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-accent-300" />
@@ -464,7 +505,7 @@ function SlideTwo({
 }) {
   return (
     <div
-      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-emerald-950 via-teal-800 to-emerald-950 text-white lg:min-h-[28rem]"
+      className="relative w-full shrink-0 overflow-hidden bg-gradient-to-br from-emerald-950 via-teal-800 to-emerald-950 text-white min-h-[28rem] sm:min-h-[30rem] lg:min-h-[32rem]"
       role="group"
       aria-roledescription="slide"
       aria-label="2 / 2: 고용노동부 지정 국비지원학원"
@@ -489,7 +530,7 @@ function SlideTwo({
         }}
       />
 
-      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[28rem]">
+      <div className="container-x relative grid gap-8 py-10 pb-20 md:pb-14 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-10 lg:min-h-[32rem]">
         <div className="order-2 lg:order-1 lg:col-span-7">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-wide text-white ring-1 ring-white/25 backdrop-blur">
             <ShieldCheck className="h-3.5 w-3.5 text-accent-300" />
