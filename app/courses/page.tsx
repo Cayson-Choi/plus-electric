@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "교육 과정",
   description:
-    "전기기능사 과정과 전기기사 국비지원 과정을 운영하고 있습니다. 내일배움카드 사용이 가능한 국비지원 과정으로 부담 없이 자격증을 준비하세요.",
+    "전기기능사 과정과 전기기사 국비지원 과정을 운영하고 있습니다 내일배움카드 사용이 가능한 국비지원 과정으로 부담 없이 자격증을 준비하세요",
 };
 
 const curriculums: Record<string, string[]> = {
@@ -44,17 +44,17 @@ const benefits = [
   {
     icon: Wallet,
     title: "내일배움카드 활용",
-    description: "전기기사 국비지원 과정은 내일배움카드 사용이 가능합니다.",
+    description: "전기기사 국비지원 과정은 내일배움카드 사용이 가능합니다",
   },
   {
     icon: Users,
     title: "소수정예 운영",
-    description: "한 분 한 분에게 집중할 수 있도록 인원 제한으로 운영합니다.",
+    description: "한 분 한 분에게 집중할 수 있도록 인원 제한으로 운영합니다",
   },
   {
     icon: Sparkles,
     title: "1:1 합격 코칭",
-    description: "약점에 맞춘 개별 피드백으로 합격까지 함께합니다.",
+    description: "약점에 맞춘 개별 피드백으로 합격까지 함께합니다",
   },
 ];
 
@@ -64,12 +64,12 @@ export default function CoursesPage() {
       <PageHero
         eyebrow="Our Courses"
         title="합격을 위한 교육 과정"
-        description="전기기능사부터 전기기사 국비지원 과정까지, 목표에 맞는 과정을 선택하세요."
+        description="전기기능사부터 전기기사 국비지원 과정까지, 목표에 맞는 과정을 선택하세요"
         breadcrumbs={[{ label: "교육 과정" }]}
         variant="courses"
       />
 
-      <section className="bg-white py-12 md:py-16">
+      <section className="bg-white pt-10 pb-4 md:pt-14 md:pb-6">
         <div className="container-x">
           <div className="grid gap-4 sm:grid-cols-3">
             {benefits.map((b) => {
@@ -104,7 +104,7 @@ export default function CoursesPage() {
             key={course.slug}
             id={course.slug}
             className={cn(
-              "scroll-mt-24 py-16 md:py-24",
+              "scroll-mt-24 py-10 md:py-14",
               reverse ? "bg-slate-50" : "bg-white",
             )}
           >
@@ -230,7 +230,7 @@ export default function CoursesPage() {
                     {course.highlight && (
                       <p className="mt-5 rounded-xl bg-white/10 p-3.5 text-xs leading-relaxed text-white/85">
                         💡 내일배움카드 신청 / 자격 요건 / 환급 절차까지 무료로
-                        상담해드립니다.
+                        상담해드립니다
                       </p>
                     )}
                   </div>

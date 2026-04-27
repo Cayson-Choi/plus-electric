@@ -44,7 +44,7 @@ export function CoursesSection() {
           <p className="mt-5 text-base leading-relaxed text-slate-600">
             전기기능사부터 전기기사 국비지원까지, 목표에 맞는 과정을
             <br className="hidden sm:inline" />
-            전문 강사진과 함께 한 번에 끝내세요.
+            전문 강사진과 함께 한 번에 끝내세요
           </p>
         </div>
 

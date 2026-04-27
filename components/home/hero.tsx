@@ -23,7 +23,7 @@ import { siteConfig } from "@/lib/site-config";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const SLIDE_INTERVAL = 3500;
+const SLIDE_INTERVAL = 5500;
 const TRANSITION_MS = 1100;
 const TOTAL_SLIDES = 2;
 const SWIPE_THRESHOLD_RATIO = 0.18;
@@ -350,16 +350,26 @@ function SlideOne({
           <h1 className="mt-7 text-balance text-4xl leading-[1.1] font-extrabold tracking-tight sm:text-5xl lg:text-[60px]">
             전기 자격증,
             <br />
-            <span className="bg-gradient-to-r from-accent-300 to-accent-400 bg-clip-text text-transparent">
-              플러스
+            <span
+              className="sparkle-text text-sky-300"
+              style={{
+                fontFamily: "'Nanum Pen Script', cursive",
+                fontSize: "1.9em",
+                verticalAlign: "-0.15em",
+                letterSpacing: "0.06em",
+              }}
+            >
+              <span className="plus-char-1">플</span>
+              <span className="plus-char-2">러</span>
+              <span className="plus-char-3">스</span>
             </span>
-            로 끝낸다.
+            로 끝낸다
           </h1>
 
           <p className="mt-6 max-w-xl text-balance text-base leading-relaxed text-white/85 sm:text-lg">
-            합격까지 한 걸음 더, 플러스 전기학원이 함께합니다. 체계적인
+            합격까지 한 걸음 더, 플러스 전기학원이 함께합니다 체계적인
             커리큘럼과 현장 출신 강사진으로 전기기능사부터 전기기사 국비지원
-            과정까지 책임집니다.
+            과정까지 책임집니다
           </p>
 
           <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2.5 text-sm font-medium text-white/90">
@@ -408,8 +418,8 @@ function SlideOne({
                 국비지원 과정
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-white/80">
-                내일배움카드로 부담 없이 시작하세요. 전기 산업의 핵심 자격증을
-                제대로 준비할 수 있습니다.
+                내일배움카드로 부담 없이 시작하세요 전기 산업의 핵심 자격증을
+                제대로 준비할 수 있습니다
               </p>
               <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/15 pt-5">
                 <div>
@@ -499,8 +509,8 @@ function SlideTwo({
 
           <p className="mt-6 max-w-xl text-balance text-base leading-relaxed text-white/85 sm:text-lg">
             국가 공인 직업능력개발 훈련기관에서 안전하고 체계적으로 자격증을
-            준비하세요. 내일배움카드 사용이 가능한 전기기사 국비지원 과정을
-            운영하고 있습니다.
+            준비하세요 내일배움카드 사용이 가능한 전기기사 국비지원 과정을
+            운영하고 있습니다
           </p>
 
           <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2.5 text-sm font-medium text-white/90">

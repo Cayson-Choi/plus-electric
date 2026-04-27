@@ -6,7 +6,6 @@ import {
   Copy,
   ExternalLink,
   MapPin,
-  Navigation,
   Phone,
 } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
@@ -17,22 +16,19 @@ import { KakaoRoughMap } from "@/components/ui/kakao-rough-map";
 export const metadata: Metadata = {
   title: "오시는 길",
   description:
-    "플러스 전기학원은 대전 유성구 대정로 28번길 50 105동 1105호에 위치하고 있습니다. 대중교통 및 자가용 안내를 확인하세요.",
+    "플러스 전기학원은 대전 유성구 대정로 28번길 50 105동 1105호에 위치하고 있습니다 대중교통 및 자가용 안내를 확인하세요",
 };
 
 export default function LocationPage() {
-  const mapQuery = encodeURIComponent(
-    `${siteConfig.name} ${siteConfig.contact.address}`,
-  );
   const kakaoLink = siteConfig.contact.mapLinks.kakao;
-  const kakaoDirections = `https://map.kakao.com/?sName=&eName=${mapQuery}`;
+  const naverLink = siteConfig.contact.mapLinks.naver;
 
   return (
     <>
       <PageHero
         eyebrow="Find Us"
         title="오시는 길"
-        description="대전 유성구 대정로의 플러스 전기학원으로 찾아오시는 길을 안내해드립니다."
+        description="대전 유성구 대정로의 플러스 전기학원으로 찾아오시는 길을 안내해드립니다"
         breadcrumbs={[{ label: "오시는 길" }]}
         variant="location"
       />
@@ -40,9 +36,9 @@ export default function LocationPage() {
       <section className="bg-white py-16 md:py-24">
         <div className="container-x">
           <div className="grid gap-8 lg:grid-cols-12">
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-7">
               <div className="rounded-[28px] bg-white p-2 shadow-elevate ring-1 ring-slate-200 sm:p-2.5">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-slate-100 ring-1 ring-slate-200/80 sm:aspect-[16/10]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-slate-100 ring-1 ring-slate-200/80 sm:aspect-[16/9]">
                   <KakaoRoughMap
                     timestamp={siteConfig.contact.kakaoRoughMap.timestamp}
                     mapKey={siteConfig.contact.kakaoRoughMap.key}
@@ -63,14 +59,14 @@ export default function LocationPage() {
                   <ExternalLink className="h-4 w-4" />
                   카카오맵에서 보기
                 </Button>
-                <Button href={kakaoDirections} external variant="secondary" size="sm">
-                  <Navigation className="h-4 w-4" />
-                  카카오맵 길찾기
+                <Button href={naverLink} external variant="secondary" size="sm">
+                  <ExternalLink className="h-4 w-4" />
+                  네이버맵에서 보기
                 </Button>
               </div>
             </div>
 
-            <div className="lg:col-span-4">
+            <div className="lg:col-span-5">
               <div className="rounded-3xl bg-slate-50 p-7 ring-1 ring-slate-200">
                 <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
                   {siteConfig.name}
@@ -159,8 +155,8 @@ export default function LocationPage() {
             <div className="flex items-start gap-3">
               <Copy className="mt-0.5 h-5 w-5 shrink-0 text-brand-600" />
               <p className="text-sm leading-relaxed text-slate-700">
-                <span className="font-bold text-slate-900">방문 전 꼭 연락 주세요.</span>{" "}
-                상담 시간을 잡아두시면 더 충실한 안내를 받으실 수 있습니다.
+                <span className="font-bold text-slate-900">방문 전 꼭 연락 주세요</span>{" "}
+                상담 시간을 잡아두시면 더 충실한 안내를 받으실 수 있습니다
               </p>
             </div>
             <Button

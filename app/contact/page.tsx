@@ -7,7 +7,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 export const metadata: Metadata = {
   title: "문의하기",
   description:
-    "전기기능사·전기기사 국비지원 과정 상담을 환영합니다. 전화 010-9937-9510 또는 문의 폼으로 연락 주세요.",
+    "전기기능사·전기기사 국비지원 과정 상담을 환영합니다 전화 010-9937-9510 또는 문의 폼으로 연락 주세요",
 };
 
 export default function ContactPage() {
@@ -16,7 +16,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="문의하기"
-        description="과정 안내, 수강 상담, 내일배움카드 활용 방법 — 무엇이든 친절하게 안내해드립니다."
+        description="과정 안내, 수강 상담, 내일배움카드 활용 방법 — 무엇이든 친절하게 안내해드립니다"
         breadcrumbs={[{ label: "문의하기" }]}
         variant="contact"
       />
@@ -33,8 +33,8 @@ export default function ContactPage() {
                   바로 연락하기
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-white/80">
-                  가장 빠른 방법은 전화 상담입니다. 운영 시간 내에 친절하게
-                  안내해드립니다.
+                  가장 빠른 방법은 전화 상담입니다 운영 시간 내에 친절하게
+                  안내해드립니다
                 </p>
 
                 <ul className="mt-7 space-y-5">
@@ -121,8 +121,8 @@ export default function ContactPage() {
                   온라인 문의 남기기
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                  내용을 남겨주시면 운영 시간 내에 빠르게 답변드립니다. 신속한
-                  답변을 원하시면 전화 상담을 추천합니다.
+                  내용을 남겨주시면 운영 시간 내에 빠르게 답변드립니다 신속한
+                  답변을 원하시면 전화 상담을 추천합니다
                 </p>
 
                 <div className="mt-7">

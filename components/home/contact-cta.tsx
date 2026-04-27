@@ -41,11 +41,11 @@ export function ContactCta() {
               합격까지 한 걸음 더,
               <br />
               <span className="text-accent-300">플러스 전기학원</span>
-              과 함께하세요.
+              과 함께하세요
             </h2>
             <p className="mt-6 max-w-xl text-balance text-base leading-relaxed text-white/85 sm:text-lg">
               과정 안내, 수강 상담, 내일배움카드 활용 방법까지 친절하게
-              안내해드립니다.
+              안내해드립니다
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">

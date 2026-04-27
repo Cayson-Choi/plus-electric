@@ -23,8 +23,8 @@ export function Faq() {
               </span>
             </h2>
             <p className="mt-5 text-base leading-relaxed text-slate-600">
-              궁금한 점을 빠르게 확인하세요. 더 자세한 안내는 전화 상담으로
-              친절하게 도와드립니다.
+              궁금한 점을 빠르게 확인하세요 더 자세한 안내는 전화 상담으로
+              친절하게 도와드립니다
             </p>
 
             <a

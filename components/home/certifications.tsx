@@ -32,7 +32,7 @@ export function Certifications() {
           <p className="mt-5 text-base leading-relaxed text-white/80">
             자격증 정보 · 원서 접수 · 합격자 발표까지, Q-Net 공식 페이지로
             <br className="hidden sm:inline" />
-            한 번에 이동할 수 있도록 정리했습니다.
+            한 번에 이동할 수 있도록 정리했습니다
           </p>
         </div>
 

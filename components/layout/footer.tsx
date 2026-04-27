@@ -5,28 +5,15 @@ import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-slate-950 text-slate-300">
-      <div
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -top-32 left-1/4 h-64 w-64 rounded-full bg-brand-600/15 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-32 right-1/4 h-64 w-64 rounded-full bg-brand-500/15 blur-3xl"
-        aria-hidden="true"
-      />
-
-      <div className="container-x relative py-16">
+    <footer className="bg-slate-950 text-slate-300">
+      <div className="container-x py-16">
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-5">
             <Logo variant="white" />
             <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-400">
-              대전 유성구 전기 자격증 전문 교육기관.
+              대전 유성구 전기 자격증 전문 교육기관
               <br />
-              체계적인 커리큘럼과 1:1 합격 코칭으로 합격까지 책임지는 학원입니다.
+              체계적인 커리큘럼과 1:1 합격 코칭으로 합격까지 책임지는 학원입니다
             </p>
 
             <div className="mt-7 flex flex-wrap gap-2">
@@ -104,7 +91,7 @@ export function Footer() {
             © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
           </p>
           <p className="text-slate-600">
-            본 사이트는 정보 제공 목적이며, 자세한 사항은 전화 상담 부탁드립니다.
+            본 사이트는 정보 제공 목적이며, 자세한 사항은 전화 상담 부탁드립니다
           </p>
         </div>
       </div>

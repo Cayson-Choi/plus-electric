@@ -10,6 +10,7 @@
 
 - **학원명**: 플러스 전기학원
 - **전화**: 010-9937-9510
+- **이메일**: dw2860@naver.com
 - **주소**: 대전 유성구 대정로 28번길 50 105동 1105호
 - **운영 시간**: 평일 09:00 - 21:00 / 토요일 09:00 - 17:00
 
@@ -19,11 +20,12 @@
 
 | 영역 | 기술 |
 |------|------|
-| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
+| Framework | [Next.js 16](https://nextjs.org/) (App Router, React 19) |
 | Language | TypeScript |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com/) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com/) (`@theme` 토큰) |
 | Icons | [lucide-react](https://lucide.dev/) |
-| Font | [Pretendard Variable](https://github.com/orioncactus/pretendard) |
+| Font | [Pretendard Variable](https://github.com/orioncactus/pretendard) (본문) + 나눔손글씨 펜 (Hero 강조) |
+| Map | 카카오맵 RoughMap 임베드 (지도 퍼가기) |
 | Build | Static Export (`output: 'export'`) |
 | Hosting | [Cloudflare Pages](https://pages.cloudflare.com/) |
 
@@ -60,34 +62,115 @@ npm run preview
 
 ```
 .
-├── app/                      # Next.js App Router 페이지
-│   ├── layout.tsx            # 루트 레이아웃 (헤더/푸터/메타)
-│   ├── page.tsx              # 메인 페이지
-│   ├── about/                # 학원 소개
-│   ├── courses/              # 교육 과정
-│   ├── location/             # 오시는 길
-│   ├── contact/              # 문의
-│   ├── globals.css           # 전역 스타일 (Tailwind v4)
-│   ├── sitemap.ts            # /sitemap.xml
-│   ├── robots.ts             # /robots.txt
-│   ├── icon.svg              # 파비콘
-│   └── not-found.tsx         # 404 페이지
+├── app/                            # Next.js App Router
+│   ├── layout.tsx                  # 루트 레이아웃 (헤더/푸터/메타/JSON-LD)
+│   ├── page.tsx                    # 메인 페이지
+│   ├── about/page.tsx              # 학원 소개
+│   ├── courses/page.tsx            # 교육 과정
+│   ├── location/page.tsx           # 오시는 길
+│   ├── contact/page.tsx            # 문의
+│   ├── globals.css                 # 전역 스타일 (Tailwind v4 + 디자인 토큰)
+│   ├── sitemap.ts                  # /sitemap.xml
+│   ├── robots.ts                   # /robots.txt
+│   ├── icon.svg                    # 파비콘
+│   └── not-found.tsx               # 404 페이지
 ├── components/
-│   ├── layout/               # Header, Footer, FloatingCta, PageHero
-│   ├── home/                 # 메인 페이지 섹션 컴포넌트
-│   ├── contact/              # 문의 폼
-│   └── ui/                   # 공통 UI (Button, Logo)
+│   ├── home/                       # 메인 페이지 섹션 컴포넌트
+│   │   ├── hero.tsx                # 2-슬라이드 캐러셀 (드래그 + 화살표)
+│   │   ├── quick-links.tsx         # 빠른 메뉴 5개 카드
+│   │   ├── courses-section.tsx     # 교육 과정 (highlight 카드)
+│   │   ├── features.tsx            # 학원 강점 + Plus Promise
+│   │   ├── process.tsx             # 4-단계 수강 프로세스
+│   │   ├── certifications.tsx      # Q-Net 자격증 정보 (다크 mesh)
+│   │   ├── faq.tsx                 # 자주 묻는 질문 (accordion)
+│   │   ├── location-preview.tsx    # 오시는 길 미리보기 + 카카오맵
+│   │   ├── contact-cta.tsx         # 최종 문의 CTA
+│   │   └── marquee-strip.tsx       # 신뢰 시그널 마퀴 (5개 항목)
+│   ├── layout/
+│   │   ├── header.tsx              # 상단 네비
+│   │   ├── footer.tsx              # 하단 정보
+│   │   ├── floating-cta.tsx        # 모바일 하단 고정 통화 버튼
+│   │   └── page-hero.tsx           # 하위 페이지 공통 hero
+│   ├── contact/contact-form.tsx    # 문의 폼 (mailto 발송)
+│   └── ui/
+│       ├── button.tsx
+│       ├── logo.tsx
+│       └── kakao-rough-map.tsx     # 카카오 RoughMap 임베드
 ├── lib/
-│   ├── site-config.ts        # 학원 정보 / 메뉴 / 과정 (단일 진실 공급원)
-│   └── utils.ts              # cn() 헬퍼
-├── public/                   # 정적 자산 (_headers 포함)
-├── docs/                     # PRD, Action Plan
-└── next.config.ts            # Next.js 설정 (정적 export)
+│   ├── site-config.ts              # 학원 정보 / 메뉴 / 과정 (단일 진실 공급원)
+│   └── utils.ts                    # cn() 헬퍼
+├── public/
+│   ├── _headers                    # Cloudflare 보안/캐시 헤더
+│   ├── fonts/NanumPen.ttf          # 나눔손글씨 펜 (Hero 강조용)
+│   └── images/                     # trophy.png, together.png 등
+├── docs/                           # PRD, Action Plan
+└── next.config.ts                  # Next.js 설정 (정적 export)
 ```
 
 ### 콘텐츠 수정 가이드
 
-학원명 / 전화번호 / 주소 / 교육 과정 / FAQ 등 모든 학원 정보는 [`lib/site-config.ts`](lib/site-config.ts) 한 파일에서 관리합니다. 정보가 변경되면 이 파일만 수정하면 사이트 전체에 반영됩니다.
+학원명 / 전화번호 / 주소 / 이메일 / 교육 과정 / FAQ / 카카오맵 임베드 정보 등 모든 학원 정보는 [`lib/site-config.ts`](lib/site-config.ts) 한 파일에서 관리합니다. 정보가 변경되면 이 파일만 수정하면 사이트 전체에 반영됩니다.
+
+---
+
+## 디자인 시스템
+
+### 컬러 토큰 (`@theme`)
+
+- **brand 50–900**: 깊은 네이비/푸른 톤 (#eff6ff → #172554)
+- **accent 300–600**: 황금 노랑 (#fde047 → #ca8a04)
+
+### 그림자 토큰
+
+- `shadow-soft` — 살짝 떠보이는 카드
+- `shadow-card` — 3-layer 표준 카드 (페이지 전체에서 사용)
+- `shadow-elevate` — 4-layer 호버 강조 (`@utility` 정의)
+- `shadow-lift` — 다크 카드용 강한 그림자
+
+### 카드 표준 패턴
+
+```html
+<!-- 흰 배경 카드 -->
+<div class="rounded-2xl bg-white p-6 shadow-card ring-1 ring-slate-200/80
+            transition-all duration-300 hover:-translate-y-1
+            hover:ring-brand-300 hover:shadow-elevate">
+  ...
+</div>
+
+<!-- 다크 배경 카드 -->
+<div class="rounded-2xl bg-white/[0.08] p-6 shadow-soft ring-1 ring-white/20
+            backdrop-blur-sm hover:bg-white/[0.16]
+            hover:ring-accent-300/50 hover:shadow-elevate">
+  ...
+</div>
+```
+
+### 애니메이션
+
+- `animate-trophy-float` / `animate-trophy-glow` — Hero 트로피
+- `animate-emphasis-sway` — Plus Promise 카드 "합격" 강조
+- `animate-marquee` — MarqueeStrip 무한 흐름
+- `sparkle-text` + `plus-char-1/2/3` — Hero "플러스" 글자 등장 사이클 (4s, 무지개 색상 60s)
+- `animate-pulse-soft` — 전화 CTA 버튼 펄스
+
+---
+
+## 카카오맵 임베드
+
+홈페이지의 LocationPreview와 `/location` 페이지는 **카카오 RoughMap 위젯**(지도 퍼가기)을 사용합니다.
+
+`site-config.ts` 의 `contact.kakaoRoughMap` 값:
+
+```ts
+kakaoRoughMap: {
+  timestamp: "1777219199002",
+  key: "mdw52uzw86f",
+}
+```
+
+이 값은 [map.kakao.com](https://map.kakao.com) → 학원 검색 → "공유 → 지도 퍼가기"에서 발급된 코드입니다.
+
+[`components/ui/kakao-rough-map.tsx`](components/ui/kakao-rough-map.tsx) 컴포넌트가 Daum 로더 스크립트를 동적 로드 후 `window.daum.roughmap.Lander`로 렌더링하며, `globals.css` 의 CSS overrides로 컨테이너에 100% 반응형으로 fit 합니다.
 
 ---
 
@@ -125,11 +208,11 @@ wrangler pages deploy out --project-name=plus-electric
 
 | 경로 | 설명 |
 |------|------|
-| `/` | 메인 (히어로, 빠른 메뉴, 교육 과정, 학원 강점, 자격증 안내, FAQ, 오시는 길, 문의 CTA) |
-| `/about/` | 학원 소개 / 비전 / 학습 단계 |
+| `/` | 메인 (Hero 캐러셀, QuickLinks, Courses, Features, Process, Certifications, FAQ, Location, ContactCta, MarqueeStrip) |
+| `/about/` | 학원 소개 (인사말 + 강사진 이미지 / 가치 / 학습 단계) |
 | `/courses/` | 교육 과정 상세 (전기기능사 / 전기기사 국비지원) |
-| `/location/` | 오시는 길 (지도, 대중교통, 자가용) |
-| `/contact/` | 문의 (양식 + 전화/주소) |
+| `/location/` | 오시는 길 (카카오맵 + 대중교통/자가용) |
+| `/contact/` | 문의 (양식 + 전화/주소/이메일) |
 
 ---
 

@@ -35,7 +35,7 @@ export function ContactForm() {
       message,
       "",
       "---",
-      "본 메일은 플러스 전기학원 홈페이지에서 발송되었습니다.",
+      "본 메일은 플러스 전기학원 홈페이지에서 발송되었습니다",
     ].join("\n");
 
     const tel = siteConfig.contact.phoneDigits;
@@ -49,7 +49,7 @@ export function ContactForm() {
 
     // 2초 후 안내 문구 유지하지만 폼은 다시 사용 가능하게
     setTimeout(() => {
-      // optional: 추가 안내. 여기선 그대로 둠
+      // optional: 추가 안내 여기선 그대로 둠
       void tel;
     }, 2000);
   }
@@ -65,9 +65,9 @@ export function ContactForm() {
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-slate-600">
           기본 메일 앱이 열렸다면 보내주신 내용을{" "}
-          <strong className="font-bold text-slate-900">전송</strong>해 주세요.
+          <strong className="font-bold text-slate-900">전송</strong>해 주세요
           빠른 답변이 필요하시면 아래 번호로 직접 전화 주시면 더 신속하게
-          안내해드립니다.
+          안내해드립니다
         </p>
         <a
           href={`tel:${siteConfig.contact.phoneDigits}`}
@@ -126,7 +126,7 @@ export function ContactForm() {
           name="message"
           required
           rows={5}
-          placeholder="문의하실 내용을 자세히 적어주세요. (수강 일정, 시간표, 내일배움카드 활용 등)"
+          placeholder="문의하실 내용을 자세히 적어주세요 (수강 일정, 시간표, 내일배움카드 활용 등)"
           className={cn(inputClasses, "min-h-[140px] resize-y leading-relaxed")}
         />
       </Field>
@@ -142,7 +142,7 @@ export function ContactForm() {
           <strong className="font-bold text-slate-900">
             개인정보 수집·이용
           </strong>
-          에 동의합니다. (수집 항목: 이름, 연락처 / 이용 목적: 상담 회신 / 보유
+          에 동의합니다 (수집 항목: 이름, 연락처 / 이용 목적: 상담 회신 / 보유
           기간: 상담 종료 후 즉시 파기)
         </span>
       </label>
@@ -156,14 +156,14 @@ export function ContactForm() {
       </button>
 
       <p className="text-center text-[11px] text-slate-500">
-        * 본 폼은 메일 앱을 통해 전송됩니다. 빠른 상담은 전화{" "}
+        * 본 폼은 메일 앱을 통해 전송됩니다 빠른 상담은 전화{" "}
         <a
           href={`tel:${siteConfig.contact.phoneDigits}`}
           className="font-bold text-brand-700 hover:underline"
         >
           {siteConfig.contact.phone}
         </a>
-        를 이용해주세요.
+        를 이용해주세요
       </p>
     </form>
   );

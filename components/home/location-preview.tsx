@@ -22,7 +22,7 @@ export function LocationPreview() {
             오시는 길
           </h2>
           <p className="mt-5 text-base leading-relaxed text-slate-600">
-            대전 유성구 대정로, 편안하게 학습할 수 있는 환경에서 만나뵙겠습니다.
+            대전 유성구 대정로, 편안하게 학습할 수 있는 환경에서 만나뵙겠습니다
           </p>
         </div>
 

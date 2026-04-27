@@ -51,9 +51,9 @@ export function Features() {
               <span className="inline-block">선택해야 할까요?</span>
             </h2>
             <p className="mt-5 text-base leading-relaxed text-slate-600">
-              자격증 합격은 결국 전략입니다. 한 분 한 분의 출발점에 맞춰 가장
+              자격증 합격은 결국 전략입니다 한 분 한 분의 출발점에 맞춰 가장
               빠르고 확실한 합격 루트를 함께 설계하고, 합격까지 곁에서
-              책임집니다.
+              책임집니다
             </p>
 
             <div className="mt-8 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 p-7 text-white shadow-elevate">
@@ -74,7 +74,7 @@ export function Features() {
                     <EmphasizedChar>합</EmphasizedChar>
                     <EmphasizedChar delay={0.18}>격</EmphasizedChar>
                   </span>
-                  시키는 학원입니다.&rdquo;
+                  시키는 학원입니다&rdquo;
                 </p>
               </div>
               <div className="mt-7 flex items-center gap-3 border-t border-white/10 pt-5">

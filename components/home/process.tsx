@@ -6,28 +6,28 @@ const steps = [
     label: "Step 01",
     title: "상담 신청",
     description:
-      "전화 또는 온라인 문의로 상담을 신청하세요. 자격 요건과 일정을 빠르게 안내해드립니다.",
+      "전화 또는 온라인 문의로 상담을 신청하세요 자격 요건과 일정을 빠르게 안내해드립니다",
   },
   {
     icon: ClipboardCheck,
     label: "Step 02",
     title: "과정 등록",
     description:
-      "내일배움카드 활용 가능 여부를 함께 확인하고, 맞춤 과정으로 등록을 진행합니다.",
+      "내일배움카드 활용 가능 여부를 함께 확인하고, 맞춤 과정으로 등록을 진행합니다",
   },
   {
     icon: GraduationCap,
     label: "Step 03",
     title: "체계적 학습",
     description:
-      "필기·실기 통합 커리큘럼과 1:1 코칭으로 약점을 빠르게 메워 합격 루트를 완성합니다.",
+      "필기·실기 통합 커리큘럼과 1:1 코칭으로 약점을 빠르게 메워 합격 루트를 완성합니다",
   },
   {
     icon: Trophy,
     label: "Step 04",
     title: "자격증 합격",
     description:
-      "모의시험으로 실전 감각을 끌어올린 후 시험에 응시. 합격까지 끝까지 함께합니다.",
+      "모의시험으로 실전 감각을 끌어올린 후 시험에 응시 합격까지 끝까지 함께합니다",
   },
 ];
 
@@ -48,7 +48,7 @@ export function Process() {
             합격까지 단 <span className="text-brand-700">4단계</span>
           </h2>
           <p className="mt-5 text-base leading-relaxed text-slate-600">
-            복잡할 것 없습니다. 한 통의 전화로 시작해, 합격까지 함께 갑니다.
+            복잡할 것 없습니다 한 통의 전화로 시작해, 합격까지 함께 갑니다
           </p>
         </div>
 

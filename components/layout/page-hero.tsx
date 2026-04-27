@@ -86,9 +86,9 @@ export function PageHero({
         aria-hidden="true"
       />
 
-      <div className="container-x relative flex flex-col justify-center py-10 md:py-14 md:min-h-[12rem] lg:min-h-[14rem]">
+      <div className="container-x relative flex flex-col justify-center py-8 md:py-10 md:min-h-[9rem] lg:min-h-[11rem]">
         {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav aria-label="breadcrumb" className="mb-5">
+          <nav aria-label="breadcrumb" className="mb-4">
             <ol className="flex flex-wrap items-center gap-1.5 text-xs text-white/70">
               <li>
                 <Link
